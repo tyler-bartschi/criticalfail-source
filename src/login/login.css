@@ -1,0 +1,55 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+
+
+.login-main {
+    background-color: rgb(21, 8, 73);
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.login-box-wrapper {
+    background-color: rgb(232, 232, 235);
+    width: 75vh;
+    margin: 5em;
+    box-shadow: 0 0 5px 5px rgb(232, 232, 235);
+    animation: login-fly-in-bottom 1.8s;
+}
+
+.login-title-welcome {
+    align-content: end;
+    padding: 1em;
+    font-size: 2.5em;
+    font-weight: bold;
+    font-family: 'Ubuntu', sans-serif ;
+}
+
+.login-title-span {
+    color: rgb(49, 19, 170);
+    font-family: 'Ubuntu', sans-serif;
+}
+
+/* @keyframes login-fly-in-left {
+    from {
+        transform: translateX(-120%);
+        opacity: 0.2;
+    }
+    to {
+        transform: translateX(0px);
+        opacity: 1;
+    }
+} */
+
+@keyframes login-fly-in-bottom {
+    from {
+        transform: translateY(80%);
+        opacity: 0.2;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
