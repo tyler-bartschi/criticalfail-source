@@ -10,6 +10,8 @@ A webiste intended to assist with D&D character creation, encounter setup, track
 
 - [ ] Create account provides fields for email, password, and username. Email must be unique and will be used as login credentials, but the username does not have to be unique, allowing users to choose whatever username they would like. A unique friend code will be provided under profile options
 - [ ] Login option provides fields for email and password, authenticating the user. It will also have a remember me option which will use localStorage
+- [ ] Include an administrative login, allowing for additional control over website operation
+- [ ] User credentials stored in MongoDB
 
 #### Display
 
@@ -19,3 +21,7 @@ A webiste intended to assist with D&D character creation, encounter setup, track
   - [ ] My Stuff - saved character sheets, homebrew classes, races, items, spells, and monsters.
   - [ ] Friends - when pressed, displays a list of friends. Each friend on the list will have an option to start (or continue) a chat with them. Also includes an `add friend` button that will allow you to enter a friend code to friend someone.
   - [ ] Logout - logout button
+- [ ] Login screen has fields for email and password
+- [ ] Login screen has a button that directs the user to the create account page
+- [ ] Create account page has fields for the email and password, as well as prompting the user to confirm the password and choose a username
+- [ ] Links to the about page are found on both the login and create account screen
