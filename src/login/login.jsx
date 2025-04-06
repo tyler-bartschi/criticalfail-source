@@ -35,12 +35,14 @@ export function Login({onAuthChange}) {
                         <input type="checkbox" id="show-pass" checked={showPass} onChange={() => {setShowPass(!showPass)}}/>
                         <span className="show-password-header">Show password</span>
                     </div>
-                    <div className="login-button-wrapper">
-                        <button type="submit" className="login-btn" onClick={() => loginUser()} disabled={!userEmail || !userPass}>Login</button>
-                    </div>
+                    <button type="submit" className="login-btn" onClick={() => loginUser()} disabled={!userEmail || !userPass}>Login</button>
                 </div>
+                <div className="divider-text">Don't have an account?</div>
+                {/* create account button should take you to the create account page */}
+                <button type="submit" className="create-acct-btn" onClick={() => {}}>Create Account</button>
+                {/* this message should take you to the about page */}
+                <div className="about-msg" onClick={() => {}}>To learn more about criticalfail, click here.</div>
             </div>
-            
         </main>
     );
 }

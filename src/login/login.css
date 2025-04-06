@@ -31,8 +31,8 @@
 }
 
 .login-title {
-    margin-left: 1em;
-    margin-bottom: 0.5em;
+    margin-left: 0.5em;
+    margin-bottom: 1em;
     font-size: 1.5em;
     font-weight: bold;
 }
@@ -81,6 +81,7 @@
     width: 35%;
     background-color: rgb(49, 19, 170);
     color: white;
+    border-radius: 0.25em;
 }
 
 .login-btn:disabled {
@@ -95,6 +96,37 @@
     background-color: rgba(19, 67, 170, 0.5);
 }
 
+.divider-text {
+    margin: 0.5em;
+    padding-top: 1em;
+    padding-left: 0.5em;
+}
+
+.create-acct-btn {
+    margin-left: 1.5em;
+    margin-top: 0.5em;
+    margin-bottom: 1em;
+    width: 35%;
+    border-radius: 0.25em;
+    background-color: rgb(117, 122, 122);
+    color: white;
+}
+
+.create-acct-btn:hover {
+    background-color: rgb(81, 85, 85);
+}
+
+.about-msg {
+    margin-top: 1em;
+    margin-left: 0.5em;
+    margin-bottom: 0.5em;
+    font-size: 0.9em;
+}
+
+.about-msg:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
 
 /* @keyframes login-fly-in-left {
     from {
