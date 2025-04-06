@@ -75,6 +75,26 @@
     margin-left: 0.5em;
 }
 
+.login-btn {
+    margin-left: 1.5em;
+    margin-top: 1em;
+    width: 35%;
+    background-color: rgb(49, 19, 170);
+    color: white;
+}
+
+.login-btn:disabled {
+    background-color: rgba(19, 67, 170, 0.5);
+}
+
+.login-btn:hover {
+    background-color: rgb(37, 15, 126);
+}
+
+.login-btn:disabled:hover {
+    background-color: rgba(19, 67, 170, 0.5);
+}
+
 
 /* @keyframes login-fly-in-left {
     from {
