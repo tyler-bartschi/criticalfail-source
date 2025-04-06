@@ -8,7 +8,7 @@ import {Login} from './login/login';
 import {AuthState} from './login/AuthState';
 
 export default function App() {
-    const [userName, setUserName] = React.useState(localStorage.getItem('userName') || "");
+    const [userName, setUserName] = React.useState("");
     const currentAuthState = userName ? AuthState.Authenticated : AuthState.Unauthenticated;
     const [authState, setAuthState] = React.useState(currentAuthState);
 
@@ -19,7 +19,12 @@ export default function App() {
                     <header>This is authenticated header placeholder</header>
                 )}
                 <Routes>
-                    <Route path="/" element={<Login />} exact />
+                    <Route path="/" element={<Login
+                                                onAuthChange={(userName, authState) => {
+                                                    setAuthState(authState);
+                                                    setUserName(userName);
+                                                }} 
+                                            />} exact />
                 </Routes>
                 <footer></footer>
             </div>
