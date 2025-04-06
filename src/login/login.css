@@ -1,6 +1,6 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap'); */
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap'); */
 
 
 
@@ -24,13 +24,57 @@
     padding: 1em;
     font-size: 2.5em;
     font-weight: bold;
-    font-family: 'Ubuntu', sans-serif ;
 }
 
 .login-title-span {
     color: rgb(49, 19, 170);
-    font-family: 'Ubuntu', sans-serif;
 }
+
+.login-title {
+    margin-left: 1em;
+    margin-bottom: 0.5em;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.login-box-data {
+    padding: 0.5em;
+    margin-left: 1em;
+}
+
+.login-header {
+    border: 0.09em rgb(174, 173, 179) solid;
+    border-right-width: 0em;
+    padding-top: 0.28em;
+    padding-bottom: 0.36em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    border-top-left-radius: 0.25em;
+    border-bottom-left-radius: 0.25em;
+}
+
+.login-input {
+    border: 0.09em rgb(174, 173, 179) solid;
+    padding-top: 0.1em;
+    padding-bottom: 0.15em;
+    padding-left: 0.5em;
+    border-top-right-radius: 0.25em;
+    border-bottom-right-radius: 0.25em;
+}
+
+.email-adjuster {
+    padding-right: 2.35em;
+    padding-top: 0.26em;
+}
+
+.show-password-box {
+    margin-left: 1.5em;
+}
+
+.show-password-header {
+    margin-left: 0.5em;
+}
+
 
 /* @keyframes login-fly-in-left {
     from {
