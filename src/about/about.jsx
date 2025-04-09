@@ -4,7 +4,7 @@ import './about.css';
 export function About() {
     return (
         <main>
-            <div>test</div>
+            <div>TEST: HEADER AND FOOTER IN DEVELOPMENT</div>
         </main>
     );
 }

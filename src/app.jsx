@@ -18,21 +18,24 @@ export default function App() {
     return (
         <BrowserRouter>
             <div className="body">
-                <Header authType={authState} />
-                {/* <div>TEST: HEADER AND FOOTER IN DEVELOPMENT</div> */}
+                {/* switch the authType to authState when finished developing */}
+                <Header authType={AuthState.Authenticated} />
                 <Routes>
-                    <Route path="/" element={<Login
+                    {/* <Route path="/" element={<Login
                                                 onAuthChange={(userName, authState) => {
                                                     setAuthState(authState);
                                                     setUserName(userName);
                                                 }} 
-                                            />} exact />
+                                            />} exact /> */}
                     {/* to properly render the header and footer in the about page, pass the authState and if its unAuthenticated, */}
                     {/* render the header and footer IN the about element, and if it's authenticated don't */}
                     {/* make a header.jsx and a footer.jsx to render those components? */}
                     <Route path="/about" element={<About />} />
                 </Routes>
-                <Footer authType={authState}/>
+                {/* only adding about for now so it formats correctly */}
+                <About />
+                {/* switch the authType to authState when finished developing */}
+                <Footer authType={AuthState.Authenticated}/>
             </div>
         </BrowserRouter>
     );
