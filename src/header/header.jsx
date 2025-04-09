@@ -7,7 +7,9 @@ export function Header({authType}) {
     if (authType === AuthState.Authenticated) {
         return (
             <header>
-                Test header
+                <div className="site-title">criticalfail</div>
+                <div>links to various pages</div>
+                <div className="user-box">put username component here</div>
             </header>
         );
     }
