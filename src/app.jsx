@@ -26,6 +26,9 @@ export default function App() {
                                                     setUserName(userName);
                                                 }} 
                                             />} exact />
+                    {/* to properly render the header and footer in the about page, pass the authState and if its unAuthenticated, */}
+                    {/* render the header and footer IN the about element, and if it's authenticated don't */}
+                    {/* make a header.jsx and a footer.jsx to render those components? */}
                     <Route path="/about" element={<About />} />
                 </Routes>
                 <footer></footer>
