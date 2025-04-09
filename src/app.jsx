@@ -6,6 +6,7 @@ import './app.css';
 import {BrowserRouter, NavLink, Route, Routes} from 'react-router-dom';
 import {Login} from './login/login';
 import {AuthState} from './login/AuthState';
+import {About} from './about/about';
 
 export default function App() {
     const [userName, setUserName] = React.useState("");
@@ -25,6 +26,7 @@ export default function App() {
                                                     setUserName(userName);
                                                 }} 
                                             />} exact />
+                    <Route path="/about" element={<About />} />
                 </Routes>
                 <footer></footer>
             </div>

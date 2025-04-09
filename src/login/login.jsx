@@ -1,9 +1,11 @@
 import React from 'react';
 import "./login.css";
 
+import { useNavigate } from 'react-router-dom';
 import { AuthState } from "./AuthState";
 
 export function Login({onAuthChange}) {
+    const navigate = useNavigate();
     const [userEmail, setUserEmail] = React.useState("");
     const [userPass, setUserPass] = React.useState("");
     const [showPass, setShowPass] = React.useState(false);
@@ -41,7 +43,7 @@ export function Login({onAuthChange}) {
                 {/* create account button should take you to the create account page */}
                 <button type="submit" className="create-acct-btn" onClick={() => {}}>Create Account</button>
                 {/* this message should take you to the about page */}
-                <div className="about-msg" onClick={() => {}}>To learn more about criticalfail, click here.</div>
+                <div className="about-msg" onClick={() => {navigate('/about')}}>To learn more about criticalfail, click here.</div>
             </div>
         </main>
     );
