@@ -11,7 +11,7 @@ import {Header} from "./header/header";
 import {Footer} from "./footer/footer";
 
 export default function App() {
-    const [userName, setUserName] = React.useState("");
+    const [userName, setUserName] = React.useState("Testing Username");
     const currentAuthState = userName ? AuthState.Authenticated : AuthState.Unauthenticated;
     const [authState, setAuthState] = React.useState(currentAuthState);
 
@@ -19,7 +19,7 @@ export default function App() {
         <BrowserRouter>
             <div className="body">
                 {/* switch the authType to authState when finished developing */}
-                <Header authType={AuthState.Authenticated} />
+                <Header authType={AuthState.Authenticated} username={userName}/>
                 <Routes>
                     {/* <Route path="/" element={<Login
                                                 onAuthChange={(userName, authState) => {
