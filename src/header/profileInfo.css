@@ -27,3 +27,70 @@
     position: relative;
     top: 2px;
 }
+
+.profile-options-display {
+    color: black;
+    position: absolute;
+    margin-left: 84px;
+    padding: 0.2em;
+    border: 2px black solid;
+    background-color: rgb(208, 207, 216);
+    box-shadow: 2px 1px 4px black;
+}
+
+.no-show {
+    opacity: 0;
+}
+
+.profile-options-fade-away {
+    pointer-events: none;
+    animation: move-up-profile 0.4s;
+    opacity: 0;
+}
+
+.profile-options-fade-in {
+    pointer-events: auto;
+    animation: drop-down-profile 0.4s;
+}
+
+.profile-option{
+    box-sizing: content-box;
+    padding: 2px 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.profile-option:hover {
+    text-decoration: underline;
+}
+
+.no-show-initial {
+    opacity: 0;
+    animation: none !important;
+}
+
+.p-o-logout {
+    color: red;
+}
+
+@keyframes drop-down-profile {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 100;
+        transform: translateY(0px);
+    }
+}
+
+@keyframes move-up-profile {
+    from {
+        opacity: 100;
+        transform: translateY(0px);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
