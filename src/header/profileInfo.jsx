@@ -2,7 +2,7 @@ import React from 'react';
 import './profileInfo.css';
 import { jsx } from 'react/jsx-runtime';
 
-export function ProfileInfo({username}) {
+export function ProfileInfo({username, globalLogout}) {
     const [displayOptions, setDisplayOptions] = React.useState(false);
     const [firstLoad, setFirstLoad] = React.useState(false);
     const dropdownRef = React.useRef(null);
@@ -34,6 +34,12 @@ export function ProfileInfo({username}) {
         };
     }, [displayOptions]);
 
+    function onLogout() {
+        // do some stuff
+        // call global logout
+        console.log("logout");
+    }
+
     return (
         <div>
             <div ref={dropdownControl} className="profile-wrapper" onClick={() => rotateCaret()}>
@@ -45,7 +51,7 @@ export function ProfileInfo({username}) {
                 <div className="profile-option">Profile Settings</div>
                 <div className="profile-option">My Stuff</div>
                 <div className="profile-option">Friends</div>
-                <div className="profile-option p-o-logout">Logout</div>
+                <div className="profile-option p-o-logout" onClick={() => onLogout()} >Logout</div>
             </div>
         </div>
     );

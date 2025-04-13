@@ -19,7 +19,10 @@ export default function App() {
         <BrowserRouter>
             <div className="body">
                 {/* switch the authType to authState when finished developing */}
-                <Header authType={AuthState.Authenticated} username={userName}/>
+                <Header authType={AuthState.Authenticated} username={userName} onAuthChange={() => {
+                                                                                    setAuthState(authState);
+                                                                                    setUserName(userName);
+                                                                                }}/>
                 <Routes>
                     {/* <Route path="/" element={<Login
                                                 onAuthChange={(userName, authState) => {

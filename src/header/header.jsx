@@ -5,7 +5,7 @@ import {useNavigate} from 'react-router-dom';
 import {AuthState} from '/src/login/AuthState';
 import {ProfileInfo} from './profileInfo';
 
-export function Header({authType, username}) {
+export function Header({authType, username, onAuthChange}) {
     const navigate = useNavigate();
 
     if (authType === AuthState.Authenticated) {
@@ -14,7 +14,10 @@ export function Header({authType, username}) {
                 <div className="site-title">criticalfail</div>
                 <div>links to various pages</div>
                 <div className="user-box">
-                    <ProfileInfo username={username}/>
+                    <ProfileInfo username={username} globalLogout={() => {
+                        onAuthChange("", AuthState.Unauthenticated);
+                        navigate('/');
+                        }}/>
                 </div>
             </header>
         );
