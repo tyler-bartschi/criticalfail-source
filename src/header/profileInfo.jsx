@@ -37,7 +37,6 @@ export function ProfileInfo({username, globalLogout}) {
     function onLogout() {
         // do some stuff
         // call global logout
-        console.log("logout");
     }
 
     return (
