@@ -14,25 +14,33 @@ import {MyStuff} from "./myStuff/myStuff";
 import {Friends} from './friends/friends';
 
 export default function App() {
-    const [userName, setUserName] = React.useState("Testing Username");
-    const currentAuthState = userName ? AuthState.Authenticated : AuthState.Unauthenticated;
+    const [userName, setUserName] = React.useState("");
+    const [profilePath, setProfilePath] = React.useState("/images/default-profile.png");
+    const currentAuthState = AuthState.Unauthenticated;
     const [authState, setAuthState] = React.useState(currentAuthState);
 
     return (
         <BrowserRouter>
             <div className="body">
                 {/* switch the authType to authState when finished developing */}
-                <Header authType={AuthState.Authenticated} username={userName} onAuthChange={() => {
-                                                                                    setAuthState(authState);
-                                                                                    setUserName(userName);
-                                                                                }}/>
+                <Header 
+                    authType={authState}
+                    username={userName} 
+                    onAuthChange={(userName, authState) => {
+                                    setAuthState(authState);
+                                    setUserName(userName);
+                                    setProfilePath('/images/default-profile.png');
+                                }}
+                    profilePic={profilePath}
+                />
                 <Routes>
-                    {/* <Route path="/" element={<Login
-                                                onAuthChange={(userName, authState) => {
+                    <Route path="/" element={<Login
+                                                onAuthChange={(userName, userProfilePic, authState) => {
                                                     setAuthState(authState);
                                                     setUserName(userName);
+                                                    setProfilePath(userProfilePic);
                                                 }} 
-                                            />} exact /> */}
+                                            />} exact />
                     {/* to properly render the header and footer in the about page, pass the authState and if its unAuthenticated, */}
                     {/* render the header and footer IN the about element, and if it's authenticated don't */}
                     {/* make a header.jsx and a footer.jsx to render those components? */}
@@ -42,9 +50,9 @@ export default function App() {
                     <Route path="/friends" element={<Friends />} />
                 </Routes>
                 {/* only adding about for now so it formats correctly */}
-                <About />
+                {/* <About /> */}
                 {/* switch the authType to authState when finished developing */}
-                <Footer authType={AuthState.Authenticated}/>
+                <Footer authType={authState}/>
             </div>
         </BrowserRouter>
     );

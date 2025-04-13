@@ -12,7 +12,7 @@ A webiste intended to assist with D&D character creation, encounter setup, track
 - [ ] Login option provides fields for email and password, authenticating the user. It will also have a remember me option which will use localStorage
 - [ ] Include an administrative login, allowing for additional control over website operation
 - [ ] User credentials stored in MongoDB
-- [ ] Eventually, user can choose a profile picture
+- [ ] Eventually, user can choose a profile picture (use S3 for this)
 
 #### Display
 

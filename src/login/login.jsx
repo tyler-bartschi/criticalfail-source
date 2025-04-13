@@ -9,13 +9,17 @@ export function Login({onAuthChange}) {
     const [userEmail, setUserEmail] = React.useState("");
     const [userPass, setUserPass] = React.useState("");
     const [showPass, setShowPass] = React.useState(false);
+    const [userProfilePic, setUserProfilePic] = React.useState("/images/default-profile.png");
+    const [username, setUsername] = React.useState("");
 
     async function loginUser() {
         // needs to do something to change the authstate to authenticated, so the user can see everything else
 
         // add a check to allow for an admin user to log in
         console.log("Temp");
-        onAuthChange(userEmail, AuthState.Authenticated);
+        // userEmail should eventually be changed to username
+        onAuthChange(userEmail, userProfilePic, AuthState.Authenticated);
+        navigate("/about");
     }
 
 
