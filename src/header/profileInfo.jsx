@@ -9,7 +9,7 @@ export function ProfileInfo({username}) {
     return (
         <div className="profile-wrapper" onClick={() => rotateCaret()}>
             <img className="profile-image" src="/images/default-profile.png" />
-            {username}
+            <span className="username-display">{username}</span>
             {/* <span className="profile-indicator-arrow">&#94;</span>&#9662; */}
             <img className="caret" id="rotating-caret" src="/images/caret-background-removed.png" />
         </div>

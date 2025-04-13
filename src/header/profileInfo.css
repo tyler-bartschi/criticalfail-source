@@ -3,16 +3,27 @@
 
 }
 
+.profile-wrapper:hover {
+    cursor: pointer;
+}
+
 .profile-image {
-    width: 60px;
+    width: 50px;
 }
 
 .caret {
     width: 25px;
-    margin-left: 0.7em;
+    margin-left: 0.5em;
     transform: rotate(180deg);
+    position: relative;
+    top: 1px;
 }
 
 .rotate-caret {
     transform: rotate(0deg) !important;
+}
+
+.username-display {
+    position: relative;
+    top: 2px;
 }
