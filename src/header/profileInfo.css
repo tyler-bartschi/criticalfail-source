@@ -6,3 +6,13 @@
 .profile-image {
     width: 60px;
 }
+
+.caret {
+    width: 25px;
+    margin-left: 0.7em;
+    transform: rotate(180deg);
+}
+
+.rotate-caret {
+    transform: rotate(0deg) !important;
+}
