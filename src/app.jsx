@@ -12,6 +12,7 @@ import {Footer} from "./footer/footer";
 import {Profile} from "./profile/profile";
 import {MyStuff} from "./myStuff/myStuff";
 import {Friends} from './friends/friends';
+import {CreateAccount} from './createAccount/createAccount'
 
 export default function App() {
     const [userName, setUserName] = React.useState("");
@@ -44,6 +45,13 @@ export default function App() {
                     {/* to properly render the header and footer in the about page, pass the authState and if its unAuthenticated, */}
                     {/* render the header and footer IN the about element, and if it's authenticated don't */}
                     {/* make a header.jsx and a footer.jsx to render those components? */}
+                    <Route path="/createAccount" element={<CreateAccount
+                                                            onAuthChange={(userName, userProfilePic, authState) => {
+                                                                setAuthState(authState);
+                                                                setUserName(userName);
+                                                                setProfilePath(userProfilePic);
+                                                            }}
+                    />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/myStuff" element={<MyStuff />} />

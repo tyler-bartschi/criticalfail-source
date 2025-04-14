@@ -45,7 +45,7 @@ export function Login({onAuthChange}) {
                 </div>
                 <div className="divider-text">Don't have an account?</div>
                 {/* create account button should take you to the create account page */}
-                <button type="submit" className="create-acct-btn" onClick={() => {}}>Create Account</button>
+                <button type="submit" className="create-acct-btn" onClick={() => {navigate('/createAccount')}}>Create Account</button>
                 {/* this message should take you to the about page */}
                 <div className="about-msg" onClick={() => {navigate('/about')}}>To learn more about criticalfail, click here.</div>
             </div>

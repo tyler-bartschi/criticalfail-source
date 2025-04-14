@@ -4,7 +4,7 @@ import './footer.css';
 import {AuthState} from "/src/login/AuthState";
 
 export function Footer({authType}) {
-    if (authType === AuthState.Authenticated) { 
+    if (authType === AuthState.Authenticated || authType === AuthState.Admin) { 
         return (
             <footer>
                 <img className="footer-image" src="images/dice-footer-image1.png" />

@@ -8,7 +8,7 @@ import {ProfileInfo} from './profileInfo';
 export function Header({authType, username, onAuthChange, profilePic}) {
     const navigate = useNavigate();
 
-    if (authType === AuthState.Authenticated) {
+    if (authType === AuthState.Authenticated || authType === AuthState.Admin) {
         return (
             <header>
                 <div className="site-title">criticalfail</div>
