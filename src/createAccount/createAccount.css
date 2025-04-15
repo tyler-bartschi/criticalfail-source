@@ -6,7 +6,7 @@
 
 .create-box-wrapper {
     background-color: rgb(232, 232, 235);
-    width: 75vh;
+    width: 50vh;
     margin: 5em;
     box-shadow: 0 0 5px 5px rgb(232, 232, 235);
     animation: login-fly-in-bottom 1.8s;
@@ -43,6 +43,9 @@
 
 .create-title {
     padding-top: 1em;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-left: 0.5em;
 }
 
 @keyframes create-back-fly-from-left {
