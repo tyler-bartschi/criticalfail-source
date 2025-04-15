@@ -1,0 +1,57 @@
+.create-main {
+    background-color: rgb(21, 8, 73);
+    display: flex;
+    flex-direction: column;
+}
+
+.create-box-wrapper {
+    background-color: rgb(232, 232, 235);
+    width: 75vh;
+    margin: 5em;
+    box-shadow: 0 0 5px 5px rgb(232, 232, 235);
+    animation: login-fly-in-bottom 1.8s;
+}
+
+.create-back-button {
+    background-color: rgb(52, 21, 177);
+    color: white;
+    /* border-color: rgb(49, 19, 170); */
+    border-radius: 0.25em;
+    padding-left: 0.5em;
+    margin-top: 0.5em;
+    margin-left: 0.5em;
+}
+
+.create-back-button:hover {
+    background-color: rgb(34, 15, 109);
+}
+
+.create-back-button:hover .create-back-arrow {
+    display: inline;
+    animation: create-back-fly-from-left 0.4s;
+}
+
+.create-back-arrow {
+    width: 20px;
+    transform: rotate(90deg);
+    position: relative;
+    bottom: 1px;
+    margin-left: -4px;
+    /* margin-right: 2px; */
+    display: none;
+}
+
+.create-title {
+    padding-top: 1em;
+}
+
+@keyframes create-back-fly-from-left {
+    from {
+        transform: translateX(-80%) rotate(90deg);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0%) rotate(90deg);
+        opacity: 100;
+    }
+}

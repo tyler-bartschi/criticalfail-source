@@ -141,7 +141,7 @@
 
 @keyframes login-fly-in-bottom {
     from {
-        transform: translateY(80%);
+        transform: translateY(20%);
         opacity: 0.2;
     }
     to {
