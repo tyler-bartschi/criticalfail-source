@@ -1,21 +1,21 @@
 .create-main {
     background-color: rgb(21, 8, 73);
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 .create-box-wrapper {
     background-color: rgb(232, 232, 235);
-    width: 50vh;
+    width: 45vh;
     margin: 5em;
     box-shadow: 0 0 5px 5px rgb(232, 232, 235);
     animation: login-fly-in-bottom 1.8s;
+    height: 63vh;
 }
 
 .create-back-button {
     background-color: rgb(52, 21, 177);
     color: white;
-    /* border-color: rgb(49, 19, 170); */
     border-radius: 0.25em;
     padding-left: 0.5em;
     margin-top: 0.5em;
@@ -37,7 +37,6 @@
     position: relative;
     bottom: 1px;
     margin-left: -4px;
-    /* margin-right: 2px; */
     display: none;
 }
 
@@ -48,6 +47,36 @@
     margin-left: 0.5em;
 }
 
+.create-input-field {
+    padding-left: 0.5em;
+    padding-top: 0.5em;
+}
+
+.create-header {
+}
+
+.create-input {
+
+}
+
+.create-logo-display {
+    align-content: center;
+    justify-items: center;
+    padding-bottom: 15em;
+    padding-left: 8em
+}
+
+.logo-image {
+    width: 150px;
+    animation: rotate-around infinite 10s;
+}
+
+.logo-title {
+    color: white;
+    font-weight: bold;
+    font-size: 4em;
+}
+
 @keyframes create-back-fly-from-left {
     from {
         transform: translateX(-80%) rotate(90deg);
@@ -56,5 +85,17 @@
     to {
         transform: translateX(0%) rotate(90deg);
         opacity: 100;
+    }
+}
+
+@keyframes rotate-around {
+    from {
+        rotate: 0deg;
+    }
+    80% {
+        rotate: 360deg;
+    }
+    to {
+        rotate: 360deg;
     }
 }

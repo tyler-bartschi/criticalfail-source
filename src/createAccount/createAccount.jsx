@@ -37,6 +37,12 @@ export function CreateAccount() {
                 </div>
                 <button type="submit" className='create-acct-btn2' onClick={() => console.log("I will do something eventually!")}>Create Account</button>
             </div>
+            <div className="create-logo-display">
+                <img className="logo-image" src="/images/dice-footer-image1.png" />
+                <div className="logo-title">
+                    criticalfail
+                </div>
+            </div>
         </main>
     );
 }
