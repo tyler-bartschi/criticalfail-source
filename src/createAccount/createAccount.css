@@ -68,7 +68,7 @@
 
 .logo-image {
     width: 150px;
-    animation: rotate-around infinite 10s;
+    animation: rotate-around linear infinite 15s;
 }
 
 .logo-title {
@@ -91,9 +91,6 @@
 @keyframes rotate-around {
     from {
         rotate: 0deg;
-    }
-    80% {
-        rotate: 360deg;
     }
     to {
         rotate: 360deg;
