@@ -45,18 +45,43 @@
     font-size: 1.5em;
     font-weight: bold;
     margin-left: 0.5em;
+    border-bottom: thin black solid;
+    width: 10em;
+    padding-left: 0.5em;
 }
 
 .create-input-field {
-    padding-left: 0.5em;
     padding-top: 0.5em;
+    margin-left: 0.7em;
 }
 
 .create-header {
+    padding-left: 0.2em;
+    font-size: 1em;
 }
 
 .create-input {
+    border-radius: 0.25em;
+    margin-top: 0.25em;
+    padding-left: 0.4em;
+}
 
+.create-show-password-box {
+    margin: 0.5em;
+    margin-left: 0.7em;
+}
+
+.show-pass-create-header {
+    padding-left: 0.5em;
+}
+
+.create-acct-btn2 {
+    background-color: rgb(117, 122, 122);
+    color: white;
+}
+
+.create-acct-btn2:hover {
+    background-color: rgb(81, 85, 85);
 }
 
 .create-logo-display {
