@@ -10,7 +10,14 @@
     margin: 5em;
     box-shadow: 0 0 5px 5px rgb(232, 232, 235);
     animation: login-fly-in-bottom 1.8s;
+}
+
+.create-box-height-small {
     height: 63vh;
+}
+
+.create-box-height-big {
+    height: 70vh;
 }
 
 .create-back-button {
@@ -76,12 +83,23 @@
 }
 
 .create-acct-btn2 {
+    margin-top: 1em;
+    margin-left: 0.5em;
     background-color: rgb(117, 122, 122);
     color: white;
+    border-radius: 0.25em;
+    padding: 0.1em 0.5em;
 }
 
 .create-acct-btn2:hover {
     background-color: rgb(81, 85, 85);
+}
+
+.create-error-message {
+    color: red;
+    font-weight: bold;
+    padding-left: 0.25em;
+    padding-top: 0.2em;   
 }
 
 .create-logo-display {

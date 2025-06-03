@@ -9,15 +9,44 @@ export function CreateAccount() {
     const [password, setPassword] = React.useState("");
     const [confirmPass, setConfirmPass] = React.useState("");
     const [showPass, setShowPass] = React.useState(false);
+    const [errorMessages, setErrorMessages] = React.useState([false, false, false])
+
+    function confirmInfo() {
+        let vEmail = false;
+        let vPassword = false;
+        if (!userEmail.includes("@")) {
+            vEmail = true;
+        }
+        if (password != confirmPass) {
+            vPassword = true;
+        }
+        setErrorMessages([vEmail, false, vPassword]);
+    }
+
+    function createUser() {
+        confirmInfo()
+        // call to backend here, check to see if email is taken. Username non-unique, generate unique friend code
+    }
+
+    function modulateHeight() {
+        for (let i = 0; i < errorMessages.length; i++) {
+            if (errorMessages[i]) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     return (
         <main className="create-main">
-            <div className="create-box-wrapper">
+            <div className={`create-box-wrapper ${modulateHeight() ? "create-box-height-big" : "create-box-height-small"}`}>
                 <button type="submit" className="create-back-button" onClick={() => navigate('/')}><img className="create-back-arrow" src="/images/caret-background-removed.png" /> Back</button>
                 <div className='create-title'>Create an Account</div>
                 <div className="create-input-field">
                     <div className="create-header">Email</div>
                     <input className="create-input" type="text" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} placeholder="Enter email" />
+                    {errorMessages[0] && (<div className="create-error-message">Invalid email</div>)}
+                    {errorMessages[1] && (<div className="create-error-message">Email already taken</div>)}
                 </div>
                 <div className="create-input-field">
                     <div className="create-header">Username</div>
@@ -30,12 +59,13 @@ export function CreateAccount() {
                 <div className="create-input-field">
                     <div className="create-header">Confirm Password</div>
                     <input className="create-input" type={showPass ? "text" : "password"} onChange={(e) => setConfirmPass(e.target.value)} placeholder="Confirm password" />
+                    {errorMessages[2] && (<div className="create-error-message">Password does not match</div>)}
                 </div>
                 <div className="create-show-password-box">
                     <input type="checkbox" id="show-pass-create" checked={showPass} onChange={() => setShowPass(!showPass)} />
                     <span className="show-pass-create-header">Show password</span>
                 </div>
-                <button type="submit" className='create-acct-btn2' onClick={() => console.log("I will do something eventually!")}>Create Account</button>
+                <button type="submit" className='create-acct-btn2' onClick={() => createUser()}>Create Account</button>
             </div>
             <div className="create-logo-display">
                 <img className="logo-image" src="/images/dice-footer-image1.png" />
@@ -46,9 +76,3 @@ export function CreateAccount() {
         </main>
     );
 }
-
-
-// <div className="show-password-box">
-// <input type="checkbox" id="show-pass" checked={showPass} onChange={() => {setShowPass(!showPass)}}/>
-// <span className="show-password-header">Show password</span>
-// </div>
