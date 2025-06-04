@@ -21,3 +21,16 @@ export async function testConnection() {
         console.log("Supabase connection verified.");
     }
 }
+
+export async function findByEmail(email) {
+    const {data, error} = await supabase
+        .from('users')
+        .select('*')
+        .eq('email', email)
+        .single();
+    if (error) {
+        console.log("ERROR--findByEmail: ", JSON.stringify(error));
+        return "error";
+    }
+    return data;
+}

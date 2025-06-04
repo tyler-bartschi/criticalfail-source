@@ -13,8 +13,9 @@ export function Login({onAuthChange}) {
     const [showPass, setShowPass] = React.useState(false);
     // const [userProfilePic, setUserProfilePic] = React.useState("/images/default-profile.png");
     const [username, setUsername] = React.useState("");
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxodHJieGl4cnh6bWZlZ3huaWh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwMDI3MTgsImV4cCI6MjA2NDU3ODcxOH0.stZvHQG6He5DHt3yhfyCtq1I5SwOhvhqVXyE5Lll3fs";
 
+    // THIS WAS FOR TESTING PURPOSES. move to backend?
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxodHJieGl4cnh6bWZlZ3huaWh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwMDI3MTgsImV4cCI6MjA2NDU3ODcxOH0.stZvHQG6He5DHt3yhfyCtq1I5SwOhvhqVXyE5Lll3fs";
     async function updateProfilePic() {
         const supabase = createClient("https://lhtrbxixrxzmfegxnihu.supabase.co", SUPABASE_ANON_KEY);
 
@@ -54,7 +55,12 @@ export function Login({onAuthChange}) {
                     </div>
                     <div className="login-box-data">
                         <span className="login-header password-adjuster">Password</span>
-                        <input className="login-input" type={showPass ? "text" : "password"} value={userPass} onChange={(e) => setUserPass(e.target.value)} placeholder="Enter password" />
+                        <input className="login-input" type={showPass ? "text" : "password"} value={userPass} onChange={(e) => setUserPass(e.target.value)} placeholder="Enter password" 
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    loginUser();
+                                }
+                            }} />
                     </div>
                     <div className="show-password-box">
                         <input type="checkbox" id="show-pass" checked={showPass} onChange={() => {setShowPass(!showPass)}}/>
