@@ -7,6 +7,8 @@ const DB = require('./database.js');
 const app = express();
 const authCookieName = 'token';
 
+DB.testConnection();
+
 const port = process.argv.length > 2 ? process.argv[2] : 5000;
 
 app.use(express.json());
@@ -24,3 +26,4 @@ app.use((_req, res) => {
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
+

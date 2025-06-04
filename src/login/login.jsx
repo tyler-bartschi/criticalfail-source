@@ -4,20 +4,39 @@ import "./login.css";
 import { useNavigate } from 'react-router-dom';
 import { AuthState } from "./AuthState";
 
+import {createClient} from '@supabase/supabase-js';
+
 export function Login({onAuthChange}) {
     const navigate = useNavigate();
     const [userEmail, setUserEmail] = React.useState("");
     const [userPass, setUserPass] = React.useState("");
     const [showPass, setShowPass] = React.useState(false);
-    const [userProfilePic, setUserProfilePic] = React.useState("/images/default-profile.png");
+    // const [userProfilePic, setUserProfilePic] = React.useState("/images/default-profile.png");
     const [username, setUsername] = React.useState("");
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxodHJieGl4cnh6bWZlZ3huaWh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwMDI3MTgsImV4cCI6MjA2NDU3ODcxOH0.stZvHQG6He5DHt3yhfyCtq1I5SwOhvhqVXyE5Lll3fs";
+
+    async function updateProfilePic() {
+        const supabase = createClient("https://lhtrbxixrxzmfegxnihu.supabase.co", SUPABASE_ANON_KEY);
+
+        // for now, just retrieves the default profile picture. Eventually, it should follow a backend login call that provides a url for profile picture
+        const {data, error} = supabase
+            .storage
+            .from('profile-pictures')
+            .getPublicUrl('default-profile.png');
+        if (error) {
+            console.error("Error retrieving profile picture:", error);
+        } else {
+            return data.publicUrl;
+        }
+    }
 
     async function loginUser() {
         // needs to do something to change the authstate to authenticated, so the user can see everything else
-
+        const userProfilePic = await updateProfilePic();
         // add a check to allow for an admin user to log in
         console.log("Temp");
         // userEmail should eventually be changed to username
+        // console.log(userProfilePic);
         onAuthChange(userEmail, userProfilePic, AuthState.Authenticated);
         navigate("/about");
     }
