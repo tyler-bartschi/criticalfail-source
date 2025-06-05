@@ -54,6 +54,37 @@ export async function findByEmail(email) {
     return data;
 }
 
+export async function getAllFriendCodes() {
+    // goes into the users table and gets all the friend codes using pagination
+    // used when the server is initialized, to help initialize the existing friend codes list
+    let allRows = []
+    let from = 0;
+    const batchSize = 100;
+
+    while (true) {
+        const {data, error} = await supabase
+            .from('users')
+            .select('friend_code')
+            .range(from, from + batchSize - 1);
+        
+        if (error) {
+            console.error("ERROR--getAllFriendCodes: ", JSON.stringify(error));
+            break;
+        }
+
+        allRows.push(...data);
+
+        if (data.length < batchSize) {
+            // all rows have been fetched
+            break;
+        }
+
+        from += batchSize;
+    }
+    
+    return allRows;
+}
+
 // CREATION FUNCTIONS
 
 export async function createUser(user) {

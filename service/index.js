@@ -14,10 +14,12 @@ const authCookieName = 'cookie_token';
 const EXISTING_FRIEND_CODES = [];
 
 async function initializeApp() {
-    // tests the connection to the database
+    // tests the connection to the database and updates the EXISTING_FRIEND_CODES array
     await DB.testConnection();
     // DB.testData();
-    console.log("success");
+    await updateFriendCodes();
+    // console.log(EXISTING_FRIEND_CODES);
+    console.log("Server Intialized.");
 }
 
 initializeApp();
@@ -117,6 +119,15 @@ async function createUser(email, username, password) {
         return user;
     }
     return false;
+}
+
+async function updateFriendCodes() {
+    // updates EXISTING_FRIEND_CODES with all the friend codes currently in the database
+    const data = await DB.getAllFriendCodes();
+    if (!Array.isArray(data)) {
+        return;
+    }
+    data.forEach(item => EXISTING_FRIEND_CODES.push(item.friend_code));
 }
 
 
