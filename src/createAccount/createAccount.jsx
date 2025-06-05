@@ -28,6 +28,27 @@ export function CreateAccount() {
     // const data = await response.json();  // parses the JSON string into an object
     // console.log(data);
 
+    // example way to handle errors and such
+    // fetch('/api/register', {
+    //     method: 'POST',
+    //     body: JSON.stringify({ email: userEmail, password: userPass }),
+    //     headers: { 'Content-Type': 'application/json' }
+    // })
+    // .then(async (response) => {
+    //     if (!response.ok) {
+    //         // For error responses like 409, parse the JSON error message
+    //         const errorData = await response.json();
+    //         console.error('Error:', errorData.error || errorData.msg);
+    //     } else {
+    //         const data = await response.json();
+    //         console.log('Success:', data);
+    //     }
+    // })
+    // .catch(err => {
+    //     console.error('Fetch error:', err);
+    // });
+
+
 
     function createUser() {
         confirmInfo()
