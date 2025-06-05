@@ -13,9 +13,14 @@ const authCookieName = 'cookie_token';
 // LATER - make a way for this list to persist between deployments. Maybe have a function automatically update this list from the DB?
 const EXISTING_FRIEND_CODES = [];
 
-// tests the connection to the database
-DB.testConnection();
-// DB.testData();
+async function initializeApp() {
+    // tests the connection to the database
+    await DB.testConnection();
+    // DB.testData();
+    console.log("success");
+}
+
+initializeApp();
 
 const port = process.argv.length > 2 ? process.argv[2] : 5000;
 

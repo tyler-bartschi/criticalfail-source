@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config()
 
 import { createClient } from '@supabase/supabase-js';
-import * as utils from './database_utils.js';
+import * as utils from './database_utils.mjs';
 
 // creating supabase client
 const supabase = createClient(
