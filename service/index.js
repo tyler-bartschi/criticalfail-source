@@ -10,7 +10,6 @@ const app = express();
 const authCookieName = 'cookie_token';
 
 // array for existing friend codes already in the system
-// LATER - make a way for this list to persist between deployments. Maybe have a function automatically update this list from the DB?
 const EXISTING_FRIEND_CODES = [];
 
 async function initializeApp() {
