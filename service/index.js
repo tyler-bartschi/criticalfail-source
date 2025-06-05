@@ -102,7 +102,7 @@ async function createUser(email, username, password) {
     // creates a user account, calls DB to add it to the table
     const passwordHash = await bcrypt.hash(password, 10);
     const idNum = utils.getRandomInt();
-    const friend = getFriendCode();
+    const friend = utils.getFriendCode(EXISTING_FRIEND_CODES);
 
     const user = {
         id: idNum,
@@ -129,32 +129,6 @@ async function updateFriendCodes() {
     }
     data.forEach(item => EXISTING_FRIEND_CODES.push(item.friend_code));
 }
-
-
-// HELPER FUNCTIONS THAT DO NOT INTERFACE WITH REQ, RES, OR DB
-
-function getFriendCode() {
-    // Generates a random, unique friend code. Keep in index.js for access to EXISTING_FRIEND_CODES
-    var alphabet = "ABCDEFGHIJKLMNOP";
-    var generated = "";
-    
-    let nums = Math.floor(Math.random() * (9000) + 1000);
-    let selectors = Math.floor(Math.random() * (9000) + 1000);
-
-    for (let i = 0; i < 4; i++) {
-        generated += (nums % 10).toString();
-        nums = Math.floor(nums / 10);
-        generated += alphabet[selectors % 10];
-        selectors = Math.floor(selectors / 10);
-    }
-
-    if (EXISTING_FRIEND_CODES.includes(generated)) {
-        return getFriendCode();
-    }
-    EXISTING_FRIEND_CODES.push(generated);
-    return generated;
-}
-
 
 // each user requires: id, email, username, password(hashed), friend code, profile_picture url, tokens for edited data, cookie-token
 // tokens for edited data should be a multiple lists of tokens, each one corresponding to an entry in a table for all the character sheets, stats, etc.
