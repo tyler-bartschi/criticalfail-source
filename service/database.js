@@ -20,8 +20,10 @@ export async function testConnection() {
 
     if (error) {
         console.error("Supabase connection failed: ", error);
-    } else {
+    } else if (data) {
         console.log("Supabase connection verified.");
+    } else {
+        console.error("Supabase connection potentially failed.")
     }
 }
 
