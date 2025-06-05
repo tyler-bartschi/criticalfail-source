@@ -13,6 +13,7 @@ const supabase = createClient(
 // TESTING FUNCTIONS
 
 export async function testConnection() {
+    // tests the connection to supabase using a predefined table and value
     const {data, error} = await supabase
         .from('test_connection')
         .select('*')
@@ -28,6 +29,7 @@ export async function testConnection() {
 }
 
 export function testData() {
+    // used to test adding data
     const user = {
             id: 1111,
             email: "test@gmail.com",
@@ -44,6 +46,7 @@ export function testData() {
 // RETRIEVAL FUNCTIONS
 
 export async function findByEmail(email) {
+    // finds a user in the database by their email
     const {data, error} = await supabase
         .from('users')
         .select('*')
@@ -90,6 +93,7 @@ export async function getAllFriendCodes() {
 // CREATION FUNCTIONS
 
 export async function createUser(user) {
+    // creates an user account in the database
     const result = await checkDuplicate(user);
     if (!result) {
         return false;
@@ -111,6 +115,7 @@ export async function createUser(user) {
 // HELPER FUNCTIONS REQUIRING DATABASE ACCESS
 
 async function checkDuplicate(user, attempt=0) {
+    // checks that the user id is unique, and if it is not it regenerates it
     if (attempt > 1000) {
         console.error("ERROR--checkDuplicate: too many retries")
         return false;
