@@ -23,6 +23,12 @@ export function CreateAccount() {
         setErrorMessages([vEmail, false, vPassword]);
     }
 
+    // example way to call backend and automatically parse the JSON
+    // const response = await fetch('/api/data');
+    // const data = await response.json();  // parses the JSON string into an object
+    // console.log(data);
+
+
     function createUser() {
         confirmInfo()
         // call to backend here, check to see if email is taken. Username non-unique, generate unique friend code

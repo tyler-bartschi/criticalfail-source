@@ -27,10 +27,70 @@ export async function findByEmail(email) {
         .from('users')
         .select('*')
         .eq('email', email)
-        .single();
+        .maybeSingle();
     if (error) {
-        console.log("ERROR--findByEmail: ", JSON.stringify(error));
+        console.error("ERROR--findByEmail: ", JSON.stringify(error));
         return "error";
     }
     return data;
+}
+
+export async function createUser(user) {
+    const result = await checkDuplicate(user);
+    if (!result) {
+        return false;
+    }
+    
+    const {data, error} = await supabase
+        .from('users')
+        .insert([
+            {id: user.id, email: user.email, username: user.username, password: user.password, friend_code: user.friend_code, 
+                profile_url: user.profile_url, tokens: user.tokens, cookie_token: user.cookie_token}
+        ]);
+    if (error) {
+        console.error("ERROR--createUser: ", JSON.stringify(error));
+        return false;
+    }
+    return true;
+}
+
+async function checkDuplicate(user, attempt=0) {
+    if (attempt > 1000) {
+        console.error("ERROR--checkDuplicate: too many retries")
+        return false;
+    }
+
+    const {data, error} = await supabase
+        .from('users')
+        .select('id')
+        .eq("id", user.id)
+        .maybeSingle();
+    if (data) {
+        user.id = getRandomInt();
+        return checkDuplicate(user, attempt + 1);
+    } else if (error) {
+        console.error("ERROR--checkDuplicate: ", JSON.stringify(error));
+        return false;
+    }
+    return true;
+}
+
+function getRandomInt() {
+    let min = 7000;
+    let max = 100000;
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+export function testData() {
+    const user = {
+            id: 1111,
+            email: "test@gmail.com",
+            username: "myUsername",
+            password: "testPasswordHash",
+            friend_code: "beMyFriend", 
+            profile_url: "default",
+            tokens: {},
+            cookie_token: "cookiemonster",
+        };
+    createUser(user);
 }
