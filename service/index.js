@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const bcrypt = require("bcryptjs");
 const uuid = require('uuid');
 const DB = require('./database.js');
+const utils = require('./index_utils.js');
 
 const app = express();
 const authCookieName = 'cookie_token';
@@ -93,7 +94,7 @@ async function findUser(field, value) {
 async function createUser(email, username, password) {
     // creates a user account, calls DB to add it to the table
     const passwordHash = await bcrypt.hash(password, 10);
-    const idNum = getRandomInt();
+    const idNum = utils.getRandomInt();
     const friend = getFriendCode();
 
     const user = {
@@ -115,13 +116,6 @@ async function createUser(email, username, password) {
 
 
 // HELPER FUNCTIONS THAT DO NOT INTERFACE WITH REQ, RES, OR DB
-
-function getRandomInt() {
-    // Generates random integer for use in user id field
-    let min = 7000;
-    let max = 100000;
-    return Math.floor(Math.random() * (max - min + 1) + min);
-}
 
 function getFriendCode() {
     // Generates a random, unique friend code. Keep in index.js for access to EXISTING_FRIEND_CODES

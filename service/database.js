@@ -2,12 +2,15 @@ import dotenv from 'dotenv';
 dotenv.config()
 
 import { createClient } from '@supabase/supabase-js';
+import * as utils from './database_utils.js';
 
-
+// creating supabase client
 const supabase = createClient(
     process.env.SUPABASE_URL,
     process.env.SUPABASE_SERVICE_ROLE_KEY
 );
+
+// TESTING FUNCTIONS
 
 export async function testConnection() {
     const {data, error} = await supabase
@@ -22,6 +25,22 @@ export async function testConnection() {
     }
 }
 
+export function testData() {
+    const user = {
+            id: 1111,
+            email: "test@gmail.com",
+            username: "myUsername",
+            password: "testPasswordHash",
+            friend_code: "beMyFriend", 
+            profile_url: "default",
+            tokens: {},
+            cookie_token: "cookiemonster",
+        };
+    createUser(user);
+}
+
+// RETRIEVAL FUNCTIONS
+
 export async function findByEmail(email) {
     const {data, error} = await supabase
         .from('users')
@@ -34,6 +53,8 @@ export async function findByEmail(email) {
     }
     return data;
 }
+
+// CREATION FUNCTIONS
 
 export async function createUser(user) {
     const result = await checkDuplicate(user);
@@ -54,6 +75,8 @@ export async function createUser(user) {
     return true;
 }
 
+// HELPER FUNCTIONS REQUIRING DATABASE ACCESS
+
 async function checkDuplicate(user, attempt=0) {
     if (attempt > 1000) {
         console.error("ERROR--checkDuplicate: too many retries")
@@ -66,7 +89,7 @@ async function checkDuplicate(user, attempt=0) {
         .eq("id", user.id)
         .maybeSingle();
     if (data) {
-        user.id = getRandomInt();
+        user.id = utils.getRandomInt();
         return checkDuplicate(user, attempt + 1);
     } else if (error) {
         console.error("ERROR--checkDuplicate: ", JSON.stringify(error));
@@ -75,22 +98,3 @@ async function checkDuplicate(user, attempt=0) {
     return true;
 }
 
-function getRandomInt() {
-    let min = 7000;
-    let max = 100000;
-    return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-export function testData() {
-    const user = {
-            id: 1111,
-            email: "test@gmail.com",
-            username: "myUsername",
-            password: "testPasswordHash",
-            friend_code: "beMyFriend", 
-            profile_url: "default",
-            tokens: {},
-            cookie_token: "cookiemonster",
-        };
-    createUser(user);
-}
