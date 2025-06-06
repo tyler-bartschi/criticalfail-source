@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs");
 const uuid = require('uuid');
 const DB = require('./database.js');
 const utils = require('./index_utils.js');
+require('dotenv').config();
 
 const app = express();
 const authCookieName = 'cookie_token';
@@ -98,6 +99,17 @@ const verifyAuth = async (req, res, next) => {
     }
 };
 
+apiRouter.delete('/auth/user/logout', verifyAuth, async (req, res) => {
+    const user = await findUser("cookie_token", req.cookies[authCookieName]);
+    if (user === "error") {
+        sendError(res, 500, "An error occured. Wait a moment and try again.");
+    } else if (user) {
+        // user.cookie_token = null;
+        await DB.updateUserSingleItem(user.id, 'cookie_token', process.env.INVALID_COOKIE);
+        res.clearCookie(authCookieName);
+        res.status(204).end();
+    }
+});
 
 app.use(function (err, req, res, next) {
     // general error handling, can be triggered by calling next(err)

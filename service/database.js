@@ -138,9 +138,8 @@ export async function updateUserSingleItem(id, field, value) {
         return false;
     } else if (data.length === 0) {
         return false;
-    } else {
-        return true;
     }
+    return true;
 }
 
 // HELPER FUNCTIONS REQUIRING DATABASE ACCESS
