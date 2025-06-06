@@ -59,6 +59,19 @@ export async function findByEmail(email) {
     return data;
 }
 
+export async function findByCookieToken(value) {
+    const {data, error} = await supabase
+        .from('users')
+        .select("*")
+        .eq("cookie_token", value)
+        .maybeSingle();
+    if (error) {
+        utils.displayError("findByCookieToken", error);
+        return "error";
+    }
+    return data;
+}
+
 export async function getAllFriendCodes() {
     // goes into the users table and gets all the friend codes using pagination
     // used when the server is initialized, to help initialize the existing friend codes list
@@ -113,6 +126,7 @@ export async function createUser(user) {
 }
 
 // UPDATE FUNCTIONS
+
 export async function updateUserSingleItem(id, field, value) {
     const {data, error} = await supabase
         .from('users')

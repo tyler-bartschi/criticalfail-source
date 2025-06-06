@@ -66,6 +66,7 @@ apiRouter.post('/auth/user/login', async (req, res) => {
     } else if (user) {
         // findUser properly returns the user, login here
         if (await bcrypt.compare(req.body.password, user.password)) {
+            // updates the cookie_token
             user.cookie_token = uuid.v4();
             let result = await DB.updateUserSingleItem(user.id, "cookie_token", user.cookie_token)
             if (!result) {
@@ -75,6 +76,7 @@ apiRouter.post('/auth/user/login', async (req, res) => {
                 sendData(res, 200, user);
             }
         } else {
+            // password was incorrect
             sendError(res, 401, "Incorrect password");
         }
     } else {
@@ -82,6 +84,20 @@ apiRouter.post('/auth/user/login', async (req, res) => {
         sendError(res, 404, "Account does not exist");
     }
 });
+
+const verifyAuth = async (req, res, next) => {
+    // verifies that the cookie in the request matches a current user cookie_token
+    // this is why the cookie_token is updated in the database upon login
+    const user = await findUser("cookie_token", req.cookies[authCookieName]);
+    if (user === "error") {
+        sendError(res, 500);
+    } else if (user) {
+        next();
+    } else {
+        sendError(res, 401, "Unauthorized");
+    }
+};
+
 
 app.use(function (err, req, res, next) {
     // general error handling, can be triggered by calling next(err)
@@ -126,6 +142,8 @@ async function findUser(field, value) {
 
     if (field === "email") {
         return await DB.findByEmail(value);
+    } else if (field === "cookie_token") {
+        return await DB.findByCookieToken(value);
     }
 }
 
