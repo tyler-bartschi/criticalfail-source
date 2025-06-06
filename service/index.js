@@ -51,8 +51,35 @@ apiRouter.post('/auth/user/create', async (req, res) => {
         } else {
             setAuthCookie(res, user.cookie_token);
             // NOTE - .json automatically stringifies the object and sets the appropriate header
-            res.status(200).json(user);
+            sendData(res, 200, user);
         }
+    }
+});
+
+apiRouter.post('/auth/user/login', async (req, res) => {
+    // middleware for handling login
+    const user = await findUser('email', req.body.email);
+
+    if (user === "error") {
+        // findUser returns "error", means a problem occured with database
+        sendError(res, 500, "An error occured, wait a moment and try again");
+    } else if (user) {
+        // findUser properly returns the user, login here
+        if (await bcrypt.compare(req.body.password, user.password)) {
+            user.cookie_token = uuid.v4();
+            let result = await DB.updateUserSingleItem(user.id, "cookie_token", user.cookie_token)
+            if (!result) {
+                sendError(res, 500, "An error occured, wait a moment and try again");
+            } else {
+                setAuthCookie(res, user.cookie_token);
+                sendData(res, 200, user);
+            }
+        } else {
+            sendError(res, 401, "Incorrect password");
+        }
+    } else {
+        // findUser did not find the user
+        sendError(res, 404, "Account does not exist");
     }
 });
 
@@ -81,6 +108,11 @@ function setAuthCookie(res, authToken) {
         httpOnly: true,
         sameSite: 'strict',
     });
+}
+
+function sendData(res, statusCode=200, data) {
+    // handles sending data back to the frontend
+    res.status(statusCode).json(data);
 }
 
 function sendError(res, statusCode=500, message="An error occured") {

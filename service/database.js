@@ -53,7 +53,7 @@ export async function findByEmail(email) {
         .eq('email', email)
         .maybeSingle();
     if (error) {
-        console.error("ERROR--findByEmail: ", JSON.stringify(error));
+        utils.displayError("findByEmail", error);
         return "error";
     }
     return data;
@@ -73,7 +73,7 @@ export async function getAllFriendCodes() {
             .range(from, from + batchSize - 1);
         
         if (error) {
-            console.error("ERROR--getAllFriendCodes: ", JSON.stringify(error));
+            utils.displayError("getAllFriendCodes", error);
             break;
         }
 
@@ -106,10 +106,27 @@ export async function createUser(user) {
                 profile_url: user.profile_url, tokens: user.tokens, cookie_token: user.cookie_token}
         ]);
     if (error) {
-        console.error("ERROR--createUser: ", JSON.stringify(error));
+        utils.displayError("createUser", error);
         return false;
     }
     return true;
+}
+
+// UPDATE FUNCTIONS
+export async function updateUserSingleItem(id, field, value) {
+    const {data, error} = await supabase
+        .from('users')
+        .update({ [field]: value })
+        .eq('id', id);
+    
+    if (error) {
+        utils.displayError("updateUserSingleItem", error);
+        return false;
+    } else if (data.length === 0) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 // HELPER FUNCTIONS REQUIRING DATABASE ACCESS
@@ -117,7 +134,7 @@ export async function createUser(user) {
 async function checkDuplicate(user, attempt=0) {
     // checks that the user id is unique, and if it is not it regenerates it
     if (attempt > 1000) {
-        console.error("ERROR--checkDuplicate: too many retries")
+        utils.displayError("checkDuplicate", {error: "too many retries"});
         return false;
     }
 
@@ -130,7 +147,7 @@ async function checkDuplicate(user, attempt=0) {
         user.id = utils.getRandomInt();
         return checkDuplicate(user, attempt + 1);
     } else if (error) {
-        console.error("ERROR--checkDuplicate: ", JSON.stringify(error));
+        utils.displayError("checkDuplicate", error);
         return false;
     }
     return true;
