@@ -21,8 +21,32 @@ export function getFriendCode(EXISTING_FRIEND_CODES) {
     }
 
     if (EXISTING_FRIEND_CODES.includes(generated)) {
-        return getFriendCode();
+        return getFriendCode(EXISTING_FRIEND_CODES);
     }
     EXISTING_FRIEND_CODES.push(generated);
     return generated;
+}
+
+export function createVerifyAuth(findUser, authCookieName) {
+    return async function verifyAuth(req, res, next) {
+        const user = await findUser('cookie_token', req.cookies[authCookieName]);
+
+        if (user === "error") {
+            return sendError(res, 500);
+        } else if (user) {
+            return next();
+        } else {
+            return sendError(res, 401, "Unauthorized");
+        }
+    }
+}
+
+export function sendData(res, statusCode=200, data) {
+    // handles sending data back to the frontend
+    res.status(statusCode).json(data);
+}
+
+export function sendError(res, statusCode=500, message="An error occured") {
+    // handles error sending
+    res.status(statusCode).json({error: message});
 }
