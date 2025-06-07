@@ -1,6 +1,8 @@
 import React from 'react';
 import './createAccount.css';
 import {useNavigate} from "react-router-dom";
+import {ErrorModal} from '../modals/errorModal';
+import {AuthState} from "../login/AuthState";
 
 export function CreateAccount({onAuthChange}) {
     const navigate = useNavigate();
@@ -10,17 +12,20 @@ export function CreateAccount({onAuthChange}) {
     const [confirmPass, setConfirmPass] = React.useState("");
     const [showPass, setShowPass] = React.useState(false);
     const [errorMessages, setErrorMessages] = React.useState([false, false, false])
+    const [showModal, setShowModal] = React.useState(false);
+    const [modalError, setModalError] = React.useState("");
 
     function confirmInfo() {
         let vEmail = false;
         let vPassword = false;
-        if (!userEmail.includes("@")) {
+        if (!userEmail.includes("@") && userEmail !== "") {
             vEmail = true;
         }
         if (password != confirmPass) {
             vPassword = true;
         }
         setErrorMessages([vEmail, false, vPassword]);
+        return vEmail || vPassword;
     }
 
     // example way to call backend and automatically parse the JSON
@@ -50,9 +55,34 @@ export function CreateAccount({onAuthChange}) {
 
 
 
-    function createUser() {
-        confirmInfo()
-        // call to backend here, check to see if email is taken. Username non-unique, generate unique friend code
+    async function createUser() {
+        if (confirmInfo()) {
+            return;
+        }
+        
+        fetch('/api/auth/user/create', {
+            method: "POST",
+            body: JSON.stringify({email: userEmail, username: username, password: password}),
+            headers: {'Content-type': 'application/json'},
+        })
+        .then(async (response) => {
+            if(response?.status === 409) {
+                setErrorMessages([false, true, false]);
+            } else if (!response.ok) {
+                const errorData = await response.json();
+                setModalError(errorData.error);
+                setShowModal(true);
+            } else {
+                const data = await response.json();
+                onAuthChange(data, AuthState.Authenticated);
+                // maybe change where it navigates to?
+                navigate('/about');
+            }
+        })
+        .catch(err => {
+            setModalError(err);
+            setShowModal(true);
+        });
     }
 
     function modulateHeight() {
@@ -100,6 +130,10 @@ export function CreateAccount({onAuthChange}) {
                     criticalfail
                 </div>
             </div>
+
+            <ErrorModal isOpen={showModal} onClose={() => setShowModal(false)}>
+                {modalError}
+            </ErrorModal>
         </main>
     );
 }
