@@ -33,7 +33,7 @@ authRouter.post('/user/create', async (req, res) => {
         } else {
             setAuthCookie(res, user.cookie_token);
             // NOTE - .json automatically stringifies the object and sets the appropriate header
-            utils.sendData(res, 200, user);
+            utils.sendData(res, user, 200);
         }
     }
 });
@@ -55,7 +55,7 @@ authRouter.post('/user/login', async (req, res) => {
                 utils.sendError(res, 500, "An error occured, wait a moment and try again");
             } else {
                 setAuthCookie(res, user.cookie_token);
-                utils.sendData(res, 200, user);
+                utils.sendData(res, user);
             }
         } else {
             // password was incorrect
@@ -76,6 +76,33 @@ authRouter.delete('/user/logout', verifyAuth, async (req, res) => {
         await DB.updateUserSingleItem(user.id, 'cookie_token', process.env.INVALID_COOKIE);
         res.clearCookie(authCookieName);
         res.status(204).end();
+    }
+});
+
+authRouter.put('/user/update', verifyAuth, async (req, res) => {
+    // used for updating the user's email, username, or password
+    const user = await findUser(authCookieName, req.cookies[authCookieName]);
+    const allowed_fields = ["username", "password", "email"];
+
+    if (user === "error") {
+        return utils.sendError(res, 500, "An error occured, wait a moment and try again");
+    } else if (user && allowed_fields.includes(req.body.field) && typeof req.body.new_value === 'string') {
+        if (req.body.field === "username") {
+            // user wants to change their username, allow without password authentication
+            return updateUser(res, req, user, req.body.field, req.body.new_value);
+        } else {
+            // user wants to change password or email, get password authentication
+            if (await bcrypt.compare(req.body.password, user.password)) {
+                // password correct, allow change
+                const new_value = req.body.field === "password" ? await bcrypt.hash(req.body.new_value, 10) : req.body.new_value;
+                return updateUser(res, req, user, req.body.field, new_value);
+            } else {
+                // password incorrect, do not allow change
+                utils.sendError(res, 401, "Incorrect password");
+            }
+        }
+    } else {
+        utils.sendError(res, 400, "Invalid field");
     }
 });
 
@@ -123,6 +150,17 @@ async function createUser(email, username, password) {
         return user;
     }
     return false;
+}
+
+async function updateUser(res, req, user, field, value) {
+    const result = await DB.updateUserSingleItem(user.id, field, value);
+    if (result) {
+        // change successful
+        const new_user = await findUser(authCookieName, req.cookies[authCookieName]);
+        return utils.sendData(res, new_user);
+    } else {
+        return utils.sendError(res, 500);
+    }
 }
 
 export async function updateFriendCodes() {

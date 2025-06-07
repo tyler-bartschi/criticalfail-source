@@ -41,7 +41,7 @@ export function createVerifyAuth(findUser, authCookieName) {
     }
 }
 
-export function sendData(res, statusCode=200, data) {
+export function sendData(res, data, statusCode=200) {
     // handles sending data back to the frontend
     res.status(statusCode).json(data);
 }
