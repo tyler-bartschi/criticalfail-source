@@ -2,7 +2,7 @@ import React from 'react';
 import './createAccount.css';
 import {useNavigate} from "react-router-dom";
 
-export function CreateAccount() {
+export function CreateAccount({onAuthChange}) {
     const navigate = useNavigate();
     const [userEmail, setUserEmail] = React.useState("")
     const [username, setUsername] = React.useState("");

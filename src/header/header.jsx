@@ -4,8 +4,9 @@ import {useNavigate} from 'react-router-dom';
 
 import {AuthState} from '/src/login/AuthState';
 import {ProfileInfo} from './profileInfo';
+import {UserType} from "../UserType.js";
 
-export function Header({authType, username, onAuthChange, profilePic}) {
+export function Header({authType, username, user, onAuthChange, profilePic}) {
     const navigate = useNavigate();
 
     if (authType === AuthState.Authenticated || authType === AuthState.Admin) {
@@ -15,9 +16,9 @@ export function Header({authType, username, onAuthChange, profilePic}) {
                 <div>links to various pages</div>
                 <div className="user-box">
                     <ProfileInfo 
-                        username={username} 
+                        user={user} 
                         globalLogout={() => {
-                            onAuthChange("", AuthState.Unauthenticated);
+                            onAuthChange(UserType.undefinedUser, AuthState.Unauthenticated);
                             navigate('/');
                             }}
                         profilePic={profilePic}

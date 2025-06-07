@@ -32,12 +32,10 @@ export function Login({onAuthChange}) {
     }
 
     async function loginUser() {
-        // needs to do something to change the authstate to authenticated, so the user can see everything else
         const userProfilePic = await updateProfilePic();
         // add a check to allow for an admin user to log in
-        console.log("Temp");
-        // userEmail should eventually be changed to username
-        // console.log(userProfilePic);
+
+        // NOTE -  userEmail needs to be switched to the user object returned from backend
         onAuthChange(userEmail, userProfilePic, AuthState.Authenticated);
         navigate("/about");
     }

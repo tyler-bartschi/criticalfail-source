@@ -2,7 +2,7 @@ import React from 'react';
 import './profileInfo.css';
 import {useNavigate} from 'react-router-dom';
 
-export function ProfileInfo({username, profilePic, globalLogout}) {
+export function ProfileInfo({user, profilePic, globalLogout}) {
     const navigate = useNavigate();
     const [displayOptions, setDisplayOptions] = React.useState(false);
     const [firstLoad, setFirstLoad] = React.useState(false);
@@ -45,7 +45,7 @@ export function ProfileInfo({username, profilePic, globalLogout}) {
         <div>
             <div ref={dropdownControl} className="profile-wrapper" onClick={() => rotateCaret()}>
                 <img className="profile-image" src={profilePic} />
-                <span className="username-display">{username}</span>
+                <span className="username-display">{user.username}</span>
                 <img className="caret" id="rotating-caret" src="/images/caret-background-removed.png" />
             </div>
             <div ref={dropdownRef} id="profile-options-id" className={`profile-options-display ${firstLoad ? (displayOptions ? 'profile-options-fade-in' : 'profile-options-fade-away') : "no-show"}`}>
