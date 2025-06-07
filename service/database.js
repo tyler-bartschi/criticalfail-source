@@ -166,3 +166,18 @@ async function checkDuplicate(user, attempt=0) {
     return true;
 }
 
+// STORAGE DATABASE FUNCTIONS
+
+// RETRIEVAL FUNCTIONS
+
+export async function getDefaultProfileUrl() {
+    const {data, error} = await supabase
+        .storage
+        .from('profile-pictures')
+        .getPublicUrl('default-profile.png');
+    if (error) {
+        utils.displayError("getDefaultProfileUrl", error);
+        return null;
+    }
+    return data.publicUrl;
+}

@@ -106,6 +106,7 @@ async function createUser(email, username, password) {
     const passwordHash = await bcrypt.hash(password, 10);
     const idNum = utils.getRandomInt();
     const friend = utils.getFriendCode(EXISTING_FRIEND_CODES);
+    const url = await DB.getDefaultProfileUrl();
 
     const user = {
         id: idNum,
@@ -113,7 +114,7 @@ async function createUser(email, username, password) {
         username: username,
         password: passwordHash,
         friend_code: friend, 
-        profile_url: "default-profile.png",
+        profile_url: url,
         tokens: {},
         cookie_token: uuidv4(),
     };
