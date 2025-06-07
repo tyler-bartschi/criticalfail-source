@@ -131,8 +131,8 @@ export async function updateUserSingleItem(id, field, value) {
     const {data, error} = await supabase
         .from('users')
         .update({ [field]: value })
-        .eq('id', id);
-    
+        .eq('id', parseInt(id, 10))
+        .select();
     if (error) {
         utils.displayError("updateUserSingleItem", error);
         return false;
