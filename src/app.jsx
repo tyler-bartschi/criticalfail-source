@@ -16,9 +16,7 @@ import {CreateAccount} from './createAccount/createAccount';
 import {UserType} from "./UserType.js";
 
 export default function App() {
-    // const [userName, setUserName] = React.useState("");
     const [user, setUser] = React.useState(UserType.undefinedUser);
-    const [profilePath, setProfilePath] = React.useState("/images/default-profile.png");
     const currentAuthState = AuthState.Unauthenticated;
     const [authState, setAuthState] = React.useState(currentAuthState);
 
@@ -28,33 +26,26 @@ export default function App() {
                 {/* switch the authType to authState when finished developing */}
                 <Header 
                     authType={authState}
-                    username={user.username}
                     user = {user} 
                     onAuthChange={(user, authState) => {
                                     setAuthState(authState);
                                     setUser(user);
-                                    setProfilePath('/images/default-profile.png');
                                 }}
-                    profilePic={profilePath}
                 />
                 <Routes>
                     <Route path="/" element={<Login
-                                                onAuthChange={(user, userProfilePic, authState) => {
+                                                onAuthChange={(user, authState) => {
                                                     setAuthState(authState);
-                                                    // setUserName(userName);
                                                     setUser(user)
-                                                    setProfilePath(userProfilePic);
                                                 }} 
                                             />} exact />
                     {/* to properly render the header and footer in the about page, pass the authState and if its unAuthenticated, */}
                     {/* render the header and footer IN the about element, and if it's authenticated don't */}
                     {/* make a header.jsx and a footer.jsx to render those components? */}
                     <Route path="/createAccount" element={<CreateAccount
-                                                            onAuthChange={(user, userProfilePic, authState) => {
+                                                            onAuthChange={(user, authState) => {
                                                                 setAuthState(authState);
-                                                                // setUserName(userName);
                                                                 setUser(user)
-                                                                setProfilePath(userProfilePic);
                                                             }}
                     />} />
                     <Route path="/about" element={<About />} />

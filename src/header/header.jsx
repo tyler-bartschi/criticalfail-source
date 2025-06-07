@@ -6,7 +6,7 @@ import {AuthState} from '/src/login/AuthState';
 import {ProfileInfo} from './profileInfo';
 import {UserType} from "../UserType.js";
 
-export function Header({authType, username, user, onAuthChange, profilePic}) {
+export function Header({authType, user, onAuthChange}) {
     const navigate = useNavigate();
 
     if (authType === AuthState.Authenticated || authType === AuthState.Admin) {
@@ -21,7 +21,6 @@ export function Header({authType, username, user, onAuthChange, profilePic}) {
                             onAuthChange(UserType.undefinedUser, AuthState.Unauthenticated);
                             navigate('/');
                             }}
-                        profilePic={profilePic}
                     />
                 </div>
             </header>

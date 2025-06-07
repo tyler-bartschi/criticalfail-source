@@ -3,5 +3,6 @@ export class UserType {
 
     constructor(name) {
         this.username = name;
+        this.profile_url = "/images/default-profile.png";
     }
 }

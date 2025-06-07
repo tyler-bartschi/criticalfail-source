@@ -36,7 +36,7 @@ export function Login({onAuthChange}) {
         // add a check to allow for an admin user to log in
 
         // NOTE -  userEmail needs to be switched to the user object returned from backend
-        onAuthChange(userEmail, userProfilePic, AuthState.Authenticated);
+        onAuthChange(userEmail, AuthState.Authenticated);
         navigate("/about");
     }
 
