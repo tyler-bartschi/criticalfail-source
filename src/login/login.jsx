@@ -14,6 +14,7 @@ export function Login({onAuthChange}) {
     const [showPass, setShowPass] = React.useState(false);
     const [showModal, setShowModal] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("null");
+    const [emailError, setEmailError] = React.useState(false);
     // const [userProfilePic, setUserProfilePic] = React.useState("/images/default-profile.png");
 
     // THIS WAS FOR TESTING PURPOSES. move to backend?
@@ -33,34 +34,13 @@ export function Login({onAuthChange}) {
     //     }
     // }
 
-
-     // example way to call backend and automatically parse the JSON
-    // const response = await fetch('/api/data');
-    // const data = await response.json();  // parses the JSON string into an object
-    // console.log(data);
-
-    // example way to handle errors and such
-    // fetch('/api/register', {
-    //     method: 'POST',
-    //     body: JSON.stringify({ email: userEmail, password: userPass }),
-    //     headers: { 'Content-Type': 'application/json' }
-    // })
-    // .then(async (response) => {
-    //     if (!response.ok) {
-    //         // For error responses like 409, parse the JSON error message
-    //         const errorData = await response.json();
-    //         console.error('Error:', errorData.error || errorData.msg);
-    //     } else {
-    //         const data = await response.json();
-    //         console.log('Success:', data);
-    //     }
-    // })
-    // .catch(err => {
-    //     console.error('Fetch error:', err);
-    // });
-
-
     async function loginUser() {
+        if (!userEmail.includes("@")) {
+            setEmailError(true);
+            return;
+        }
+        setEmailError(false);
+        
         // add a check to allow for an admin user to log in
         const response = await fetch('/api/auth/user/login', {
             method: 'POST',
@@ -90,6 +70,7 @@ export function Login({onAuthChange}) {
                     <div className="login-box-data">
                         <span className="login-header email-adjuster">Email</span>
                         <input className="login-input" type="text" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} placeholder="Enter email" />
+                        {emailError && (<div className="login-error-message">Invalid Email</div>)}
                     </div>
                     <div className="login-box-data">
                         <span className="login-header password-adjuster">Password</span>

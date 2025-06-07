@@ -62,6 +62,14 @@
     border-bottom-right-radius: 0.25em;
 }
 
+.login-error-message {
+    color: red;
+    font-weight: bold;
+    padding-left: 0.5em;
+    padding-top: 0.2em;
+    margin-bottom: -0.5em;
+}
+
 .email-adjuster {
     padding-right: 2.35em;
     padding-top: 0.26em;
