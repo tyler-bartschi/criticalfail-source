@@ -1,4 +1,7 @@
 import React from 'react';
+// DO NOT REMOVE BOOTSTRAP IMPORTS - IT SCREWS EVERYTHING UP
+import "bootstrap/dist/css/bootstrap.min.css";
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './app.css';
 
 import {BrowserRouter, NavLink, Route, Routes} from 'react-router-dom';

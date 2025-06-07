@@ -1,0 +1,24 @@
+.error-modal-header {
+    font-weight: bold;
+    color: rgb(209, 10, 10);
+    font-size: 1.3em;
+    margin-bottom: 1em;
+    border-bottom: thin black solid;
+}
+
+.error-modal-sidebar {
+    width: 0.25em;
+    height: 1em;
+    display: inline-block;
+    position: relative;
+    top: 2px;
+    margin-right: 0.5em;
+    background-color: rgb(49, 19, 170);
+}
+
+
+.error-modal-message {
+    /* padding-left: 0.5em; */
+    margin-bottom: 1em;
+}
+

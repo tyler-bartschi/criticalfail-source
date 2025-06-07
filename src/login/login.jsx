@@ -3,6 +3,7 @@ import "./login.css";
 
 import { useNavigate } from 'react-router-dom';
 import { AuthState } from "./AuthState";
+import {ErrorModal} from "../modals/errorModal";
 
 import {createClient} from '@supabase/supabase-js';
 
@@ -11,33 +12,72 @@ export function Login({onAuthChange}) {
     const [userEmail, setUserEmail] = React.useState("");
     const [userPass, setUserPass] = React.useState("");
     const [showPass, setShowPass] = React.useState(false);
+    const [showModal, setShowModal] = React.useState(false);
+    const [errorMessage, setErrorMessage] = React.useState("null");
     // const [userProfilePic, setUserProfilePic] = React.useState("/images/default-profile.png");
-    const [username, setUsername] = React.useState("");
 
     // THIS WAS FOR TESTING PURPOSES. move to backend?
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxodHJieGl4cnh6bWZlZ3huaWh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwMDI3MTgsImV4cCI6MjA2NDU3ODcxOH0.stZvHQG6He5DHt3yhfyCtq1I5SwOhvhqVXyE5Lll3fs";
-    async function updateProfilePic() {
-        const supabase = createClient("https://lhtrbxixrxzmfegxnihu.supabase.co", SUPABASE_ANON_KEY);
+    // const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxodHJieGl4cnh6bWZlZ3huaWh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwMDI3MTgsImV4cCI6MjA2NDU3ODcxOH0.stZvHQG6He5DHt3yhfyCtq1I5SwOhvhqVXyE5Lll3fs";
+    // async function updateProfilePic() {
+    //     const supabase = createClient("https://lhtrbxixrxzmfegxnihu.supabase.co", SUPABASE_ANON_KEY);
 
-        // for now, just retrieves the default profile picture. Eventually, it should follow a backend login call that provides a url for profile picture
-        const {data, error} = supabase
-            .storage
-            .from('profile-pictures')
-            .getPublicUrl('default-profile.png');
-        if (error) {
-            console.error("Error retrieving profile picture:", error);
-        } else {
-            return data.publicUrl;
-        }
-    }
+    //     // for now, just retrieves the default profile picture. Eventually, it should follow a backend login call that provides a url for profile picture
+    //     const {data, error} = supabase
+    //         .storage
+    //         .from('profile-pictures')
+    //         .getPublicUrl('default-profile.png');
+    //     if (error) {
+    //         console.error("Error retrieving profile picture:", error);
+    //     } else {
+    //         return data.publicUrl;
+    //     }
+    // }
+
+
+     // example way to call backend and automatically parse the JSON
+    // const response = await fetch('/api/data');
+    // const data = await response.json();  // parses the JSON string into an object
+    // console.log(data);
+
+    // example way to handle errors and such
+    // fetch('/api/register', {
+    //     method: 'POST',
+    //     body: JSON.stringify({ email: userEmail, password: userPass }),
+    //     headers: { 'Content-Type': 'application/json' }
+    // })
+    // .then(async (response) => {
+    //     if (!response.ok) {
+    //         // For error responses like 409, parse the JSON error message
+    //         const errorData = await response.json();
+    //         console.error('Error:', errorData.error || errorData.msg);
+    //     } else {
+    //         const data = await response.json();
+    //         console.log('Success:', data);
+    //     }
+    // })
+    // .catch(err => {
+    //     console.error('Fetch error:', err);
+    // });
+
 
     async function loginUser() {
-        const userProfilePic = await updateProfilePic();
         // add a check to allow for an admin user to log in
+        const response = await fetch('/api/auth/user/login', {
+            method: 'POST',
+            body: JSON.stringify({ email: userEmail, password: userPass}),
+            headers: {'Content-Type': 'application/json'}
+        });
 
-        // NOTE -  userEmail needs to be switched to the user object returned from backend
-        onAuthChange(userEmail, AuthState.Authenticated);
-        navigate("/about");
+        if(!response.ok) {
+            const errorData = await response.json();
+            setErrorMessage(errorData.error);
+            setShowModal(true);
+        } else {
+            const data = await response.json();
+            onAuthChange(data, AuthState.Authenticated);
+            // maybe change where it navigates to?
+            navigate('/about');
+        }
     }
 
 
@@ -72,6 +112,10 @@ export function Login({onAuthChange}) {
                 {/* this message should take you to the about page */}
                 <div className="about-msg" onClick={() => {navigate('/about')}}>To learn more about criticalfail, click here.</div>
             </div>
+
+            <ErrorModal isOpen={showModal} onClose={() => setShowModal(false)}>
+                {errorMessage}
+            </ErrorModal>
         </main>
     );
 }

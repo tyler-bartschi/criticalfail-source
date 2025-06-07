@@ -8,7 +8,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    /* z-index refers to how 'in front' the item appears. z-index of 1000 says put it on top of everything else on the page basically */
     z-index: 1000;
 }
 
@@ -24,10 +23,17 @@
 
 .modal-close {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 8px;
+    right: 15px;
     background: transparent;
     border: none;
-    font-size: 1.5rem;
+    font-size: 1.5em;
     cursor: pointer;
 }
+
+.modal-close:hover {
+    color: rgb(209, 10, 10);
+}
+
+
+/* z-index refers to how 'in front' the item appears. z-index of 1000 says put it on top of everything else on the page basically */
