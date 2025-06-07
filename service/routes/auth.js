@@ -113,7 +113,8 @@ async function createUser(email, username, password) {
         username: username,
         password: passwordHash,
         friend_code: friend, 
-        profile_url: "default",
+        // change profile-url to get the correct url from database
+        profile_url: "default-profile.png",
         tokens: {},
         cookie_token: uuidv4(),
     };
