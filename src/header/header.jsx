@@ -2,7 +2,7 @@ import React from 'react';
 import "./header.css";
 import {useNavigate} from 'react-router-dom';
 
-import {AuthState} from '/src/login/AuthState';
+import {AuthState} from '../login/AuthState';
 import {ProfileInfo} from './profileInfo';
 import {UserType} from "../UserType.js";
 
