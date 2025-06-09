@@ -1,6 +1,7 @@
 import React from 'react';
 import './profileInfo.css';
 import {useNavigate} from 'react-router-dom';
+import {ErrorModal} from '../modals/errorModal';
 
 export function ProfileInfo({user, globalLogout}) {
     const navigate = useNavigate();
@@ -8,6 +9,8 @@ export function ProfileInfo({user, globalLogout}) {
     const [firstLoad, setFirstLoad] = React.useState(false);
     const dropdownRef = React.useRef(null);
     const dropdownControl = React.useRef(null);
+    const [showModal, setShowModal] = React.useState(false);
+    const [errorMessage, setErrorMessage] = React.useState("");
 
     function rotateCaret() {
         document.getElementById('rotating-caret').classList.toggle('rotate-caret');
@@ -36,9 +39,22 @@ export function ProfileInfo({user, globalLogout}) {
     }, [displayOptions]);
 
     function onLogout() {
-        // do some stuff
-        // call global logout
-        globalLogout();
+        fetch("/api/auth/user/logout", {
+            method: "DELETE"
+        })
+        .then(async (response) => {
+            if(!response.ok) {
+                const errorData = await response.json();
+                setErrorMessage(errorData.error);
+                setShowModal(true);
+            } else {
+                globalLogout();
+            }
+        })
+        .catch(err => {
+            setErrorMessage(err);
+            setShowModal(true);
+        })
     }
 
     return (
@@ -54,6 +70,9 @@ export function ProfileInfo({user, globalLogout}) {
                 <div className="profile-option" onClick={() => {navigate('/friends'); rotateCaret();}}>Friends</div>
                 <div className="profile-option p-o-logout" onClick={() => onLogout()} >Logout</div>
             </div>
+            <ErrorModal isOpen={showModal} onClose={() => setShowModal(false)}>
+                {errorMessage}
+            </ErrorModal>
         </div>
     );
 }
