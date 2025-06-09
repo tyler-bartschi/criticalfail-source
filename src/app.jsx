@@ -19,6 +19,7 @@ import {UserType} from "./UserType.js";
 export default function App() {
     const [user, setUser] = React.useState(UserType.undefinedUser);
     const currentAuthState = AuthState.Unauthenticated;
+    // use LocalStorage to maintain authstate across reloads
     const [authState, setAuthState] = React.useState(currentAuthState);
 
     return (
