@@ -42,22 +42,28 @@ export function Login({onAuthChange}) {
         setEmailError(false);
         
         // add a check to allow for an admin user to log in
-        const response = await fetch('/api/auth/user/login', {
+        fetch('/api/auth/user/login', {
             method: 'POST',
             body: JSON.stringify({ email: userEmail, password: userPass}),
             headers: {'Content-Type': 'application/json'}
-        });
-
-        if(!response.ok) {
-            const errorData = await response.json();
-            setErrorMessage(errorData.error);
+        })
+        .then(async (response) => {
+            if(!response.ok) {
+                const errorData = await response.json();
+                setErrorMessage(errorData.error);
+                setShowModal(true);
+            } else {
+                const data = await response.json();
+                onAuthChange(data, AuthState.Authenticated);
+                // maybe change where it navigates to?
+                navigate('/about');
+            }
+        })
+        .catch(err => {
+            setErrorMessage(err);
             setShowModal(true);
-        } else {
-            const data = await response.json();
-            onAuthChange(data, AuthState.Authenticated);
-            // maybe change where it navigates to?
-            navigate('/about');
-        }
+        });
+       
     }
 
 
