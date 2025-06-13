@@ -19,7 +19,6 @@ import {UserType} from "./UserType.js";
 export default function App() {
     const [user, setUser] = React.useState(UserType.undefinedUser);
     // const currentAuthState = AuthState.Unauthenticated;
-    // use LocalStorage to maintain authstate across reloads
     const [authState, setAuthState] = React.useState(() => {
         const value = localStorage.getItem("authState");
         if (value === "authenticated") {
@@ -33,6 +32,12 @@ export default function App() {
         }
     });
 
+    function authChange(user, authState) {
+        setAuthState(authState);
+        setUser(user);
+        localStorage.setItem('authState', authState.name);
+    }
+
     return (
         <BrowserRouter>
             <div className="body">
@@ -40,29 +45,17 @@ export default function App() {
                 <Header 
                     authType={authState}
                     user = {user} 
-                    onAuthChange={(user, authState) => {
-                                    setAuthState(authState);
-                                    setUser(user);
-                                    localStorage.setItem('authState', authState.name);
-                                }}
+                    onAuthChange={authChange}
                 />
                 <Routes>
                     <Route path="/" element={<Login
-                                                onAuthChange={(user, authState) => {
-                                                    setAuthState(authState);
-                                                    setUser(user);
-                                                    localStorage.setItem('authState', authState.name);
-                                                }} 
+                                                onAuthChange={authChange} 
                                             />} exact />
                     {/* to properly render the header and footer in the about page, pass the authState and if its unAuthenticated, */}
                     {/* render the header and footer IN the about element, and if it's authenticated don't */}
                     {/* make a header.jsx and a footer.jsx to render those components? */}
                     <Route path="/createAccount" element={<CreateAccount
-                                                            onAuthChange={(user, authState) => {
-                                                                setAuthState(authState);
-                                                                setUser(user);
-                                                                localStorage.setItem('authState', authState.name);
-                                                            }}
+                                                            onAuthChange={authChange}
                     />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/profile" element={<Profile />} />
