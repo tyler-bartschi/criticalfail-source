@@ -18,9 +18,20 @@ import {UserType} from "./UserType.js";
 
 export default function App() {
     const [user, setUser] = React.useState(UserType.undefinedUser);
-    const currentAuthState = AuthState.Unauthenticated;
+    // const currentAuthState = AuthState.Unauthenticated;
     // use LocalStorage to maintain authstate across reloads
-    const [authState, setAuthState] = React.useState(currentAuthState);
+    const [authState, setAuthState] = React.useState(() => {
+        const value = localStorage.getItem("authState");
+        if (value === "authenticated") {
+            return AuthState.Authenticated;
+        } else if (value === "unauthenticated") {
+            return AuthState.Unauthenticated;
+        } else if (value === "admin") {
+            return AuthState.Admin;
+        }else {
+            return AuthState.Unauthenticated;
+        }
+    });
 
     return (
         <BrowserRouter>
@@ -32,13 +43,15 @@ export default function App() {
                     onAuthChange={(user, authState) => {
                                     setAuthState(authState);
                                     setUser(user);
+                                    localStorage.setItem('authState', authState.name);
                                 }}
                 />
                 <Routes>
                     <Route path="/" element={<Login
                                                 onAuthChange={(user, authState) => {
                                                     setAuthState(authState);
-                                                    setUser(user)
+                                                    setUser(user);
+                                                    localStorage.setItem('authState', authState.name);
                                                 }} 
                                             />} exact />
                     {/* to properly render the header and footer in the about page, pass the authState and if its unAuthenticated, */}
@@ -47,7 +60,8 @@ export default function App() {
                     <Route path="/createAccount" element={<CreateAccount
                                                             onAuthChange={(user, authState) => {
                                                                 setAuthState(authState);
-                                                                setUser(user)
+                                                                setUser(user);
+                                                                localStorage.setItem('authState', authState.name);
                                                             }}
                     />} />
                     <Route path="/about" element={<About />} />
