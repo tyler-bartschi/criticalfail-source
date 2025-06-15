@@ -3,13 +3,15 @@ import './about.css';
 
 import {AuthState} from '../login/AuthState';
 import {AboutBack} from './aboutBack';
+import {useNavigate} from 'react-router-dom';
 
 export function About({authType}) {
+    const navigate = useNavigate();
     return (
         <div className="body">
             {authType === AuthState.Unauthenticated && (
                 <header>
-                    <div className="site-title">criticalfail</div>
+                    <div className="site-title" onClick={() => navigate('/')} >criticalfail</div>
                     <AboutBack />
                 </header>
             )}

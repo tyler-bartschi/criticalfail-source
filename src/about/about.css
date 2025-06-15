@@ -1,7 +1,38 @@
+.site-title {
+    cursor: pointer;
+}
+
 .about-back-wrapper {
     position: fixed;
     right: 0;
     padding-right: 2em;
     font-size: 1.2em;
     cursor: pointer;
+}
+
+.about-back-arrow {
+    width: 25px;
+    transform: rotate(90deg); 
+    padding-right: 0.2em;
+    display: none;
+}
+
+.about-back-wrapper:hover {
+    text-decoration: underline;
+}
+
+.about-back-wrapper:hover .about-back-arrow {
+    display: inline;
+    animation: about-back-fly-from-left 0.4s;
+}
+
+@keyframes about-back-fly-from-left {
+    from {
+        transform: translateX(-80%) rotate(90deg);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0%) rotate(90deg);
+        opacity: 1;
+    }
 }
