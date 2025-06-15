@@ -52,7 +52,6 @@ export function Login({onAuthChange}) {
         } else {
             // going to false
             if (loadingRef.current) {
-                console.log("properly animated out");
                 loadingRef.current.classList.remove('overlay-fade-in');
                 loadingRef.current.classList.add('overlay-fade-out');
             }
@@ -93,7 +92,7 @@ export function Login({onAuthChange}) {
                 onAuthChange(data, AuthState.Authenticated);
                 updateShowLoading(false);
                 // maybe change where it navigates to?
-                navigate('/about');
+                setTimeout(() => navigate('/about'), 300);
             }
         } catch (err) {
             await minLoadTime;

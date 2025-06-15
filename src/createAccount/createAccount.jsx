@@ -16,6 +16,8 @@ export function CreateAccount({onAuthChange}) {
     const [modalError, setModalError] = React.useState("");
     const [showLoading, setShowLoading] = React.useState(false);
 
+    const loadingRef = React.useRef(null);
+
     function confirmInfo() {
         let vEmail = false;
         let vPassword = false;
@@ -55,13 +57,32 @@ export function CreateAccount({onAuthChange}) {
     // });
 
 
+    React.useEffect(() => {
+        if (showLoading && loadingRef.current) {
+            loadingRef.current.classList.remove('overlay-fade-out');
+            loadingRef.current.classList.add('overlay-fade-in');
+        }
+    }, [showLoading]);
+
+    function updateShowLoading(state) {
+        if (state) {
+            setShowLoading(true);
+        } else {
+            if (loadingRef.current) {
+                loadingRef.current.classList.remove('overlay-fade-in');
+                loadingRef.current.classList.add('overlay-fade-out');
+            }
+            setTimeout(() => setShowLoading(false), 400);
+        }
+    }
+
 
     async function createUser() {
         if (confirmInfo()) {
             return;
         }
         
-        setShowLoading(true);
+        updateShowLoading(true);
 
         const minLoadTime = new Promise(resolve => setTimeout(resolve, 700));
 
@@ -76,23 +97,23 @@ export function CreateAccount({onAuthChange}) {
 
             if(response?.status === 409) {
                 setErrorMessages([false, true, false]);
-                setShowLoading(false);
+                updateShowLoading(false);
             } else if (!response.ok) {
                 const errorData = await response.json();
                 setModalError(errorData.error);
-                setShowLoading(false);
+                updateShowLoading(false);
                 setShowModal(true);
             } else {
                 const data = await response.json();
                 onAuthChange(data, AuthState.Authenticated);
                 // maybe change where it navigates to?
-                setShowLoading(false);
-                navigate('/about');
+                updateShowLoading(false);
+                setTimeout(() => navigate('/about'), 300);
             }
 
         } catch (err) {
-            setModalError(err);
-            setShowLoading(false);
+            setModalError(err.toString());
+            updateShowLoading(false);
             setShowModal(true);
         }
         
@@ -110,7 +131,7 @@ export function CreateAccount({onAuthChange}) {
     return (
         <main className="create-main">
             {showLoading &&  (
-                <div className="loading-overlay-full">
+                <div ref={loadingRef} className="loading-overlay-full">
                     <div className="spinner-blue"></div>
                 </div>
             )}

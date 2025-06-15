@@ -13,6 +13,8 @@ export function ProfileInfo({user, globalLogout}) {
     const [errorMessage, setErrorMessage] = React.useState("");
     const [showLoading, setShowLoading] = React.useState(false);
 
+    const loadingRef = React.useRef(null);
+
     function rotateCaret() {
         document.getElementById('rotating-caret').classList.toggle('rotate-caret');
         setDisplayOptions((prevValue) => !prevValue);
@@ -39,6 +41,26 @@ export function ProfileInfo({user, globalLogout}) {
         };
     }, [displayOptions]);
 
+    React.useEffect(() => {
+        if (showLoading && loadingRef.current) {
+            loadingRef.current.classList.remove('overlay-fade-out');
+            loadingRef.current.classList.add('overlay-fade-in');
+        }
+    }, [showLoading]);
+
+    function updateShowLoading(state) {
+        if (state) {
+            setShowLoading(true);
+        } else {
+            if (loadingRef.current) {
+                loadingRef.current.classList.remove('overlay-fade-in');
+                loadingRef.current.classList.add('overlay-fade-out');
+            }
+
+            setTimeout(() => setShowLoading(false), 400);
+        }
+    }
+
     async function onLogout() {
         setShowLoading(true);
 
@@ -54,15 +76,15 @@ export function ProfileInfo({user, globalLogout}) {
             if(!response.ok) {
                 const errorData = await response.json();
                 setErrorMessage(errorData.error);
-                setShowLoading(false);
+                updateShowLoading(false);
                 setShowModal(true);
             } else {
-                setShowLoading(false);
-                globalLogout();
+                updateShowLoading(false);
+                setTimeout(() => globalLogout(), 300);
             }
         } catch (err) {
             setErrorMessage(err.toString());
-            setShowLoading(false);
+            updateShowLoading(false);
             setShowModal(true);
         }        
     }
@@ -70,7 +92,7 @@ export function ProfileInfo({user, globalLogout}) {
     return (
         <div>
             {showLoading && (
-                <div className='loading-overlay-full'> 
+                <div ref={loadingRef} className='loading-overlay-full'> 
                     <div className='spinner-blue'></div>
                 </div>
             )}
