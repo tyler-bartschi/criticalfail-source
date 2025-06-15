@@ -21,6 +21,7 @@ export function Header({authType, user, onAuthChange}) {
                         user={user} 
                         globalLogout={() => {
                             sessionStorage.clear("authState");
+                            sessionStorage.clear('user');
                             onAuthChange(UserType.undefinedUser, AuthState.Unauthenticated);
                             navigate('/');
                             }}

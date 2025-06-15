@@ -17,7 +17,14 @@ import {CreateAccount} from './createAccount/createAccount';
 import {UserType} from "./UserType.js";
 
 export default function App() {
-    const [user, setUser] = React.useState(UserType.undefinedUser);
+    const [user, setUser] = React.useState(() => {
+        const value = sessionStorage.getItem('user');
+        if (value) {
+            return JSON.parse(value);
+        } else {
+            return UserType.undefinedUser;
+        }
+    });
     // const currentAuthState = AuthState.Unauthenticated;
     const [authState, setAuthState] = React.useState(() => {
         const value = sessionStorage.getItem("authState");
@@ -35,6 +42,7 @@ export default function App() {
     function authChange(user, authState) {
         setAuthState(authState);
         setUser(user);
+        sessionStorage.setItem('user', JSON.stringify(user));
         sessionStorage.setItem('authState', authState.name);
     }
 
