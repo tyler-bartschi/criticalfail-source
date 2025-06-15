@@ -11,6 +11,7 @@ export function ProfileInfo({user, globalLogout}) {
     const dropdownControl = React.useRef(null);
     const [showModal, setShowModal] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("");
+    const [showLoading, setShowLoading] = React.useState(false);
 
     function rotateCaret() {
         document.getElementById('rotating-caret').classList.toggle('rotate-caret');
@@ -38,27 +39,41 @@ export function ProfileInfo({user, globalLogout}) {
         };
     }, [displayOptions]);
 
-    function onLogout() {
-        fetch("/api/auth/user/logout", {
-            method: "DELETE"
-        })
-        .then(async (response) => {
+    async function onLogout() {
+        setShowLoading(true);
+
+        const minLoadTime = new Promise(resolve => setTimeout(resolve, 700));
+
+        try {
+            const response = await fetch("/api/auth/user/logout", {
+                method: "DELETE"
+            });
+
+            await minLoadTime;
+
             if(!response.ok) {
                 const errorData = await response.json();
                 setErrorMessage(errorData.error);
+                setShowLoading(false);
                 setShowModal(true);
             } else {
+                setShowLoading(false);
                 globalLogout();
             }
-        })
-        .catch(err => {
-            setErrorMessage(err);
+        } catch (err) {
+            setErrorMessage(err.toString());
+            setShowLoading(false);
             setShowModal(true);
-        })
+        }        
     }
 
     return (
         <div>
+            {showLoading && (
+                <div className='loading-overlay-full'> 
+                    <div className='spinner-blue'></div>
+                </div>
+            )}
             <div ref={dropdownControl} className="profile-wrapper" onClick={() => rotateCaret()}>
                 <img className="profile-image" src={user.profile_url} />
                 <span className="username-display">{user.username}</span>

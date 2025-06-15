@@ -16,6 +16,8 @@ export function Login({onAuthChange}) {
     const [errorMessage, setErrorMessage] = React.useState("null");
     const [emailError, setEmailError] = React.useState(false);
     const [showLoading, setShowLoading] = React.useState(false);
+
+    const loadingRef = React.useRef(null);
     // const [userProfilePic, setUserProfilePic] = React.useState("/images/default-profile.png");
 
     // THIS WAS FOR TESTING PURPOSES. move to backend?
@@ -35,13 +37,36 @@ export function Login({onAuthChange}) {
     //     }
     // }
 
+    React.useEffect(() => {
+        if (showLoading && loadingRef.current) {
+            loadingRef.current.classList.remove('overlay-fade-out');
+            loadingRef.current.classList.add('overlay-fade-in');
+        }
+    }, [showLoading]);
+
+
+    function updateShowLoading(state) {
+        if (state) {
+            // going to true
+            setShowLoading(true);
+        } else {
+            // going to false
+            if (loadingRef.current) {
+                console.log("properly animated out");
+                loadingRef.current.classList.remove('overlay-fade-in');
+                loadingRef.current.classList.add('overlay-fade-out');
+            }
+            setTimeout(() => setShowLoading(false), 400);
+        }
+    }
+
     async function loginUser() {
         if (!userEmail.includes("@")) {
             setEmailError(true);
             return;
         }
         setEmailError(false);
-        setShowLoading(true);
+        updateShowLoading(true);
 
 
         // The Promise takes a function that has parameters resolve and reject, which are functions that can be called from the callback function
@@ -61,19 +86,19 @@ export function Login({onAuthChange}) {
             if(!response.ok) {
                 const errorData = await response.json();
                 setErrorMessage(errorData.error);
-                setShowLoading(false);
+                updateShowLoading(false);
                 setShowModal(true);
             } else {
                 const data = await response.json();
                 onAuthChange(data, AuthState.Authenticated);
-                setShowLoading(false);
+                updateShowLoading(false);
                 // maybe change where it navigates to?
                 navigate('/about');
             }
         } catch (err) {
             await minLoadTime;
             setErrorMessage(err.toString());
-            setShowLoading(false);
+            updateShowLoading(false);
             setShowModal(true);
         }        
     }
@@ -82,7 +107,7 @@ export function Login({onAuthChange}) {
     return (
         <main className="login-main">
             {showLoading && (
-                <div className="loading-overlay-full">
+                <div ref={loadingRef} className="loading-overlay-full">
                     <div className="spinner-blue"></div>
                 </div>
             )}
