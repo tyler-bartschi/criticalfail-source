@@ -9,6 +9,8 @@ import {UserType} from "../UserType.js";
 export function Header({authType, user, onAuthChange}) {
     const navigate = useNavigate();
 
+    // ADD A WAY TO PERSISTENTLY STORE THE USER -- IT DEFAULTS TO UNDEFINED WHEN THE TAB IS RELOADED
+
     if (authType === AuthState.Authenticated || authType === AuthState.Admin) {
         return (
             <header>
@@ -18,6 +20,7 @@ export function Header({authType, user, onAuthChange}) {
                     <ProfileInfo 
                         user={user} 
                         globalLogout={() => {
+                            sessionStorage.clear("authState");
                             onAuthChange(UserType.undefinedUser, AuthState.Unauthenticated);
                             navigate('/');
                             }}

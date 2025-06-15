@@ -15,6 +15,7 @@ export function Login({onAuthChange}) {
     const [showModal, setShowModal] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("null");
     const [emailError, setEmailError] = React.useState(false);
+    const [showLoading, setShowLoading] = React.useState(false);
     // const [userProfilePic, setUserProfilePic] = React.useState("/images/default-profile.png");
 
     // THIS WAS FOR TESTING PURPOSES. move to backend?
@@ -40,35 +41,51 @@ export function Login({onAuthChange}) {
             return;
         }
         setEmailError(false);
+        setShowLoading(true);
+
+
+        // The Promise takes a function that has parameters resolve and reject, which are functions that can be called from the callback function
+        // Resolve is called when successful, reject when it fails.
+        const minLoadTime = new Promise(resolve => setTimeout(resolve, 700));
         
         // add a check to allow for an admin user to log in
-        fetch('/api/auth/user/login', {
-            method: 'POST',
-            body: JSON.stringify({ email: userEmail, password: userPass}),
-            headers: {'Content-Type': 'application/json'}
-        })
-        .then(async (response) => {
+        try {
+            const response = await fetch('/api/auth/user/login', {
+                method: 'POST',
+                body: JSON.stringify({ email: userEmail, password: userPass}),
+                headers: {'Content-Type': 'application/json'}
+            });
+            
+            await minLoadTime;
+
             if(!response.ok) {
                 const errorData = await response.json();
                 setErrorMessage(errorData.error);
+                setShowLoading(false);
                 setShowModal(true);
             } else {
                 const data = await response.json();
                 onAuthChange(data, AuthState.Authenticated);
+                setShowLoading(false);
                 // maybe change where it navigates to?
                 navigate('/about');
             }
-        })
-        .catch(err => {
-            setErrorMessage(err);
+        } catch (err) {
+            await minLoadTime;
+            setErrorMessage(err.toString());
+            setShowLoading(false);
             setShowModal(true);
-        });
-       
+        }        
     }
 
 
     return (
         <main className="login-main">
+            {showLoading && (
+                <div className="loading-overlay-full">
+                    <div className="spinner-blue"></div>
+                </div>
+            )}
             <div className="login-box-wrapper">
                 <div className="login-title-welcome">Welcome to <span className="login-title-span">criticalfail</span></div>
                 <h3 className="login-title">Login</h3>
@@ -80,7 +97,7 @@ export function Login({onAuthChange}) {
                     </div>
                     <div className="login-box-data">
                         <span className="login-header password-adjuster">Password</span>
-                        <input className="login-input" type={showPass ? "text" : "password"} value={userPass} onChange={(e) => setUserPass(e.target.value)} placeholder="Enter password" 
+                        <input className="login-input" type={showPass ? "text" : "password"} disabled={showLoading} value={userPass} onChange={(e) => setUserPass(e.target.value)} placeholder="Enter password" 
                             onKeyDown={(e) => {
                                 if (e.key === "Enter") {
                                     loginUser();

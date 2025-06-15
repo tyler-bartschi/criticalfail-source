@@ -20,7 +20,7 @@ export default function App() {
     const [user, setUser] = React.useState(UserType.undefinedUser);
     // const currentAuthState = AuthState.Unauthenticated;
     const [authState, setAuthState] = React.useState(() => {
-        const value = localStorage.getItem("authState");
+        const value = sessionStorage.getItem("authState");
         if (value === "authenticated") {
             return AuthState.Authenticated;
         } else if (value === "unauthenticated") {
@@ -35,7 +35,7 @@ export default function App() {
     function authChange(user, authState) {
         setAuthState(authState);
         setUser(user);
-        localStorage.setItem('authState', authState.name);
+        sessionStorage.setItem('authState', authState.name);
     }
 
     return (
