@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './app.css';
 
-import {BrowserRouter, NavLink, Route, Routes} from 'react-router-dom';
+import {BrowserRouter, NavLink, Route, Routes, useNavigate} from 'react-router-dom';
 import {Login} from './login/login';
 import {AuthState} from './login/AuthState';
 import {About} from './about/about';
@@ -14,6 +14,7 @@ import {Profile} from "./profile/profile";
 import {MyStuff} from "./myStuff/myStuff";
 import {Friends} from './friends/friends';
 import {CreateAccount} from './createAccount/createAccount';
+import {Home} from "./home/home";
 import {UserType} from "./UserType.js";
 
 export default function App() {
@@ -25,6 +26,7 @@ export default function App() {
             return UserType.undefinedUser;
         }
     });
+    
     // const currentAuthState = AuthState.Unauthenticated;
     const [authState, setAuthState] = React.useState(() => {
         const value = sessionStorage.getItem("authState");
@@ -65,10 +67,12 @@ export default function App() {
                     <Route path="/createAccount" element={<CreateAccount
                                                             onAuthChange={authChange}
                     />} />
-                    <Route path="/about" element={<About />} />
+                    <Route path="/home" element={<Home />} />
+                    <Route path="/about" element={<About authType={authState}/>} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/myStuff" element={<MyStuff />} />
                     <Route path="/friends" element={<Friends />} />
+                    <Route path="*" element={<NotFound />} />
                 </Routes>
                 {/* only adding about for now so it formats correctly */}
                 {/* <About /> */}
@@ -79,21 +83,16 @@ export default function App() {
     );
 }
 
-// ACTUAL CODE BELOW -- PUT THIS BACK
-
-// {authState === AuthState.Authenticated && (
-//     <header>This is authenticated header placeholder</header>
-// )}
-// <Routes>
-//     <Route path="/" element={<Login
-//                                 onAuthChange={(userName, authState) => {
-//                                     setAuthState(authState);
-//                                     setUserName(userName);
-//                                 }} 
-//                             />} exact />
-//     {/* to properly render the header and footer in the about page, pass the authState and if its unAuthenticated, */}
-//     {/* render the header and footer IN the about element, and if it's authenticated don't */}
-//     {/* make a header.jsx and a footer.jsx to render those components? */}
-//     <Route path="/about" element={<About />} />
-// </Routes>
-// <footer></footer>
+function NotFound() {
+    const navigate = useNavigate();
+    return (
+        <div className="not-found">
+            <div className="not-found-header">criticalfail</div>
+            <div className="not-found-wrapper">
+                <div className="not-found-title">Error: 404</div>
+                <div className="not-found-message">Page not found.</div>
+                <div className="not-found-back" onClick={() => navigate('/')} >Back to Login</div>  
+            </div>
+        </div>
+    );
+}

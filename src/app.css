@@ -81,3 +81,60 @@ footer {
         opacity: 0;
     }
 }
+
+.not-found {
+    background: rgb(21, 8, 73);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.not-found-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    color: white;
+    font-weight: bold;
+    font-size: 2.5em;
+    padding-left: 0.3em;
+    padding-top: 0.3em;
+}
+
+.not-found-wrapper {
+    position: fixed;
+    top: 20%;
+    margin-left: 20vh;
+    background-color: white;
+    width: 75%;
+    height: 40%;
+    box-shadow: 0 0 3px 3px white;
+}
+
+.not-found-title {
+    position: fixed;
+    top: 25%;
+    margin-left: 5vh;
+    color: rgb(49, 19, 170);
+    font-weight: bold;
+    font-size: 2.5em;
+}
+
+.not-found-message {
+    position: fixed;
+    top: 40%;
+    margin-left: 5vh;
+    color: rgb(49, 19, 170);
+    font-size: 2em;
+}
+
+.not-found-back {
+    justify-self: right;
+    padding: 1em;
+    color: rgb(49, 19, 170);
+    cursor: pointer;
+}
+
+.not-found-back:hover {
+    text-decoration: underline;
+}
