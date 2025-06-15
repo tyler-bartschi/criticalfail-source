@@ -10,10 +10,14 @@ export function CreateAccount({onAuthChange}) {
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [confirmPass, setConfirmPass] = React.useState("");
+
     const [showPass, setShowPass] = React.useState(false);
-    const [errorMessages, setErrorMessages] = React.useState([false, false, false])
+
+    const [errorMessages, setErrorMessages] = React.useState([false, false, false]);
+
     const [showModal, setShowModal] = React.useState(false);
     const [modalError, setModalError] = React.useState("");
+    
     const [showLoading, setShowLoading] = React.useState(false);
 
     const loadingRef = React.useRef(null);
@@ -140,7 +144,7 @@ export function CreateAccount({onAuthChange}) {
                     <input type="checkbox" id="show-pass-create" checked={showPass} onChange={() => setShowPass(!showPass)} />
                     <span className="show-pass-create-header">Show password</span>
                 </div>
-                <button type="submit" className='create-acct-btn2' onClick={() => createUser()}>Create Account</button>
+                <button type="submit" className='create-acct-btn2' disabled={!userEmail || !username || !password || !confirmPass} onClick={() => createUser()}>Create Account</button>
             </div>
             <div className="create-logo-display">
                 <img className="logo-image" src="/images/dice-footer-image1.png" />

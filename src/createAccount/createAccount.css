@@ -90,6 +90,14 @@
     padding: 0.1em 0.5em;
 }
 
+.create-acct-btn2:disabled {
+    background-color: rgb(140, 141, 141);
+}
+
+.create-acct-btn2:disabled:hover {
+    background-color: rgb(140, 141, 141);
+}
+
 .create-acct-btn2:hover {
     background-color: rgb(81, 85, 85);
 }
