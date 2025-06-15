@@ -86,7 +86,7 @@ export function CreateAccount({onAuthChange}) {
                 onAuthChange(data, AuthState.Authenticated);
                 // maybe change where it navigates to?
                 updateShowLoading(false);
-                setTimeout(() => navigate('/about'), 300);
+                setTimeout(() => navigate('/home'), 300);
             }
 
         } catch (err) {

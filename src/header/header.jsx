@@ -9,12 +9,10 @@ import {UserType} from "../UserType.js";
 export function Header({authType, user, onAuthChange}) {
     const navigate = useNavigate();
 
-    // ADD A WAY TO PERSISTENTLY STORE THE USER -- IT DEFAULTS TO UNDEFINED WHEN THE TAB IS RELOADED
-
     if (authType === AuthState.Authenticated || authType === AuthState.Admin) {
         return (
             <header>
-                <div className="site-title">criticalfail</div>
+                <div className="site-title" onClick={() => navigate("/home")}>criticalfail</div>
                 <div>links to various pages</div>
                 <div className="user-box">
                     <ProfileInfo 
