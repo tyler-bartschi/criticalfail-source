@@ -14,6 +14,7 @@ export function CreateAccount({onAuthChange}) {
     const [errorMessages, setErrorMessages] = React.useState([false, false, false])
     const [showModal, setShowModal] = React.useState(false);
     const [modalError, setModalError] = React.useState("");
+    const [showLoading, setShowLoading] = React.useState(false);
 
     function confirmInfo() {
         let vEmail = false;
@@ -60,29 +61,41 @@ export function CreateAccount({onAuthChange}) {
             return;
         }
         
-        fetch('/api/auth/user/create', {
-            method: "POST",
-            body: JSON.stringify({email: userEmail, username: username, password: password}),
-            headers: {'Content-type': 'application/json'},
-        })
-        .then(async (response) => {
+        setShowLoading(true);
+
+        const minLoadTime = new Promise(resolve => setTimeout(resolve, 700));
+
+        try {
+            const response = await fetch('/api/auth/user/create', {
+                method: "POST",
+                body: JSON.stringify({email: userEmail, username: username, password: password}),
+                headers: {'Content-type': 'application/json'},
+            });
+
+            await minLoadTime;
+
             if(response?.status === 409) {
                 setErrorMessages([false, true, false]);
+                setShowLoading(false);
             } else if (!response.ok) {
                 const errorData = await response.json();
                 setModalError(errorData.error);
+                setShowLoading(false);
                 setShowModal(true);
             } else {
                 const data = await response.json();
                 onAuthChange(data, AuthState.Authenticated);
                 // maybe change where it navigates to?
+                setShowLoading(false);
                 navigate('/about');
             }
-        })
-        .catch(err => {
+
+        } catch (err) {
             setModalError(err);
+            setShowLoading(false);
             setShowModal(true);
-        });
+        }
+        
     }
 
     function modulateHeight() {
@@ -96,6 +109,11 @@ export function CreateAccount({onAuthChange}) {
 
     return (
         <main className="create-main">
+            {showLoading &&  (
+                <div className="loading-overlay-full">
+                    <div className="spinner-blue"></div>
+                </div>
+            )}
             <div className={`create-box-wrapper ${modulateHeight() ? "create-box-height-big" : "create-box-height-small"}`}>
                 <button type="submit" className="create-back-button" onClick={() => navigate('/')}><img className="create-back-arrow" src="/images/caret-background-removed.png" /> Back</button>
                 <div className='create-title'>Create an Account</div>
@@ -115,7 +133,12 @@ export function CreateAccount({onAuthChange}) {
                 </div>
                 <div className="create-input-field">
                     <div className="create-header">Confirm Password</div>
-                    <input className="create-input" type={showPass ? "text" : "password"} onChange={(e) => setConfirmPass(e.target.value)} placeholder="Confirm password" />
+                    <input className="create-input" type={showPass ? "text" : "password"} disabled={showLoading} onChange={(e) => setConfirmPass(e.target.value)} placeholder="Confirm password" 
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                createUser();
+                            }
+                        }} />
                     {errorMessages[2] && (<div className="create-error-message">Password does not match</div>)}
                 </div>
                 <div className="create-show-password-box">
