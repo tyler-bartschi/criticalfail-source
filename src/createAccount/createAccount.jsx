@@ -31,32 +31,6 @@ export function CreateAccount({onAuthChange}) {
         return vEmail || vPassword;
     }
 
-    // example way to call backend and automatically parse the JSON
-    // const response = await fetch('/api/data');
-    // const data = await response.json();  // parses the JSON string into an object
-    // console.log(data);
-
-    // example way to handle errors and such
-    // fetch('/api/register', {
-    //     method: 'POST',
-    //     body: JSON.stringify({ email: userEmail, password: userPass }),
-    //     headers: { 'Content-Type': 'application/json' }
-    // })
-    // .then(async (response) => {
-    //     if (!response.ok) {
-    //         // For error responses like 409, parse the JSON error message
-    //         const errorData = await response.json();
-    //         console.error('Error:', errorData.error || errorData.msg);
-    //     } else {
-    //         const data = await response.json();
-    //         console.log('Success:', data);
-    //     }
-    // })
-    // .catch(err => {
-    //     console.error('Fetch error:', err);
-    // });
-
-
     React.useEffect(() => {
         if (showLoading && loadingRef.current) {
             loadingRef.current.classList.remove('overlay-fade-out');
