@@ -22,9 +22,9 @@ mkdir build
 npm install
 npm run build
 cp -rf dist build/public
-cp service/*.js build
+cp -r service/*.js service/routes build/
 cp service/*.json build
-cp service/.env build 2>/dev/null
+cp service/.env build/.env
 
 printf "\n----> Clearing out previous distribution on the target\n"
 ssh -i "$key" ubuntu@$hostname << ENDSSH
@@ -33,7 +33,7 @@ mkdir -p services/${service}
 ENDSSH
 
 printf "\n----> Copy the distribution package to the target\n"
-scp -r -i "$key" build/* ubuntu@$hostname:services/$service
+scp -r -i "$key" build/. ubuntu@$hostname:services/$service
 
 printf "\n----> Deploy the service on the target\n"
 ssh -i "$key" ubuntu@$hostname << ENDSSH
