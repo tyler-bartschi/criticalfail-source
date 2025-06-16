@@ -24,6 +24,7 @@ npm run build
 cp -rf dist build/public
 cp service/*.js build
 cp service/*.json build
+cp service/.env build 2>/dev/null
 
 printf "\n----> Clearing out previous distribution on the target\n"
 ssh -i "$key" ubuntu@$hostname << ENDSSH
