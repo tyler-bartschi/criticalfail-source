@@ -1,7 +1,7 @@
 import React from 'react';
 import './createAccount.css';
 import {useNavigate} from "react-router-dom";
-import {ErrorModal} from '../modals/errorModal';
+import {ErrorModal} from '../../modals/errorModal';
 import {AuthState} from "../login/AuthState";
 
 export function CreateAccount({onAuthChange}) {

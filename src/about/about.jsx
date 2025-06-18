@@ -1,7 +1,7 @@
 import React from 'react';
 import './about.css';
 
-import {AuthState} from '../login/AuthState';
+import {AuthState} from '../authentication/login/AuthState';
 import {AboutBack} from './aboutBack';
 import {useNavigate} from 'react-router-dom';
 

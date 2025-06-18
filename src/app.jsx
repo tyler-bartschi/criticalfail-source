@@ -5,17 +5,18 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './app.css';
 
 import {BrowserRouter, NavLink, Route, Routes, useNavigate} from 'react-router-dom';
-import {Login} from './login/login';
-import {AuthState} from './login/AuthState';
+import {Login} from './authentication/login/login.jsx';
+import {AuthState} from './authentication/login/AuthState.js';
 import {About} from './about/about';
 import {Header} from "./header/header";
 import {Footer} from "./footer/footer";
 import {Profile} from "./profile/profile";
 import {MyStuff} from "./myStuff/myStuff";
 import {Friends} from './friends/friends';
-import {CreateAccount} from './createAccount/createAccount';
+import {CreateAccount} from './authentication/createAccount/createAccount.jsx';
 import {Home} from "./home/home";
 import {UserType} from "./UserType.js";
+import {ResetPassword} from './authentication/reset_password/reset_password.jsx';
 
 export default function App() {
     const [user, setUser] = React.useState(() => {
@@ -67,6 +68,7 @@ export default function App() {
                     <Route path="/createAccount" element={<CreateAccount
                                                             onAuthChange={authChange}
                     />} />
+                    <Route path="/reset" element={<ResetPassword />} />
                     <Route path="/home" element={<Home />} />
                     <Route path="/about" element={<About authType={authState}/>} />
                     <Route path="/profile" element={<Profile />} />

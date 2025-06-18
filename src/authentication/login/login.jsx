@@ -3,7 +3,7 @@ import "./login.css";
 
 import { useNavigate } from 'react-router-dom';
 import { AuthState } from "./AuthState";
-import {ErrorModal} from "../modals/errorModal";
+import {ErrorModal} from "../../modals/errorModal";
 
 import {createClient} from '@supabase/supabase-js';
 
@@ -119,6 +119,7 @@ export function Login({onAuthChange}) {
                 {/* create account button should take you to the create account page */}
                 <button type="submit" className="create-acct-btn" onClick={() => {navigate('/createAccount')}}>Create Account</button>
                 {/* this message should take you to the about page */}
+                <div className="forgot-password" onClick={() => navigate('/reset')} >Forgot your password?</div>
                 <div className="about-msg" onClick={() => {navigate('/about')}}>To learn more about criticalfail, click here.</div>
             </div>
 

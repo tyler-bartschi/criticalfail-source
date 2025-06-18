@@ -1,7 +1,7 @@
 import React from 'react';
 import './footer.css';
 
-import {AuthState} from "../login/AuthState";
+import {AuthState} from "../authentication/login/AuthState";
 
 export function Footer({authType}) {
     if (authType === AuthState.Authenticated || authType === AuthState.Admin) { 
