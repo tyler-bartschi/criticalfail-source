@@ -1,6 +1,8 @@
 import dotenv from 'dotenv';
 dotenv.config()
 
+import cron from 'node-cron';
+
 import { createClient } from '@supabase/supabase-js';
 import * as utils from './database_utils.js';
 
@@ -181,3 +183,25 @@ export async function getDefaultProfileUrl() {
     }
     return data.publicUrl;
 }
+
+
+// KEEP ALIVE
+
+async function keepAlive() {
+    const {data, error} = await supabase
+        .from('test_connection')
+        .select('*')
+        .eq('id', process.env.SUPABASE_CONNECTION_INT);
+    
+    if (error) {
+        console.error("Supbase Keep Alive ping failed: ", JSON.stringify(error));
+    } else if (data) {
+        console.log("Supbase Keep Alive ping successful");
+    } else {
+        console.error("Potential issue with supabase Keep Alive ping");
+    }
+}
+
+cron.schedule('0 0 */2 * *', () => {
+    keepAlive();
+})
